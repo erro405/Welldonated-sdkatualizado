@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "178675810011",
+    "project_id": "welldonated-61f8a",
+    "storage_bucket": "welldonated-61f8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178675810011:android:96dd03fb3f465ddd1d96fe",
+        "android_client_info": {
+          "package_name": "com.example.weeldonatedproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178675810011-r14n3vckbeumolkvelqukltku007mg37.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVAlept9Udy4GSiwkU0W2p2hlNlsf0qjw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178675810011-r14n3vckbeumolkvelqukltku007mg37.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
