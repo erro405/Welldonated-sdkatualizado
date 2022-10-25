@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/pagina2.dart';
+import 'package:weeldonatedproject/app/choose_user_screen.dart';
 
 
 class esquecerPass extends StatelessWidget {
@@ -121,7 +121,7 @@ class esquecerPass extends StatelessWidget {
                         )),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => pagina2()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseUserScreen()));
                       },
                       child: Text(
                         'Regista-te',

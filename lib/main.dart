@@ -7,15 +7,15 @@ import 'package:weeldonatedproject/app/IntencaoDoacao.dart';
 import 'package:weeldonatedproject/app/IntencaoDoacao2.dart';
 import 'package:weeldonatedproject/app/emailpage.dart';
 import 'package:weeldonatedproject/app/mainpage.dart';
-import 'package:weeldonatedproject/app/pagina2.dart';
-import 'package:weeldonatedproject/app/pagina3.dart';
+import 'package:weeldonatedproject/app/choose_user_screen.dart';
 import 'package:weeldonatedproject/app/pagina4.dart';
 import 'package:weeldonatedproject/app/pagina5.dart';
 import 'package:weeldonatedproject/app/pagina10.dart';
-import 'package:weeldonatedproject/app/pagina12.dart';
+import 'package:weeldonatedproject/profile_screen/profile_screen.dart';
 import 'package:weeldonatedproject/app/pagina17.dart';
 import 'package:weeldonatedproject/app/pagina13.dart';
 import 'package:weeldonatedproject/app/pagina18.dart';
+import 'package:weeldonatedproject/sign_up/signup_screen.dart';
 
 
 void main(){

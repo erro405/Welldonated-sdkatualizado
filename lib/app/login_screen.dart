@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/emailValidator.dart';
-import 'package:weeldonatedproject/app/esquecerPass.dart';
+import 'package:weeldonatedproject/app/forget_password.dart';
 import 'package:weeldonatedproject/app/mainpage.dart';
 
 import '../costumwidgets/butaosubmit.dart';
@@ -28,7 +28,6 @@ class _EmailPageFormState extends State<EmailPageForm> {
 
   bool _submited = false;
 
-
   void _emailEditingComplete() {
     FocusScope.of(context).requestFocus(_passwordFocusNode);
   }
@@ -38,7 +37,7 @@ class _EmailPageFormState extends State<EmailPageForm> {
     User? user;
     try{
       UserCredential userCredential = await auth.signInWithEmailAndPassword(email: email, password: password);
-      user =userCredential.user;
+      user = userCredential.user;
 
     } on FirebaseException catch(e){
       if(e.code == "user-not-found"){
@@ -48,8 +47,6 @@ class _EmailPageFormState extends State<EmailPageForm> {
 
     return user;
   }
-
-
 
   void _toggleFormType() {
     setState(() {
@@ -75,9 +72,6 @@ class _EmailPageFormState extends State<EmailPageForm> {
 
     bool emailValid = _submited && !widget.emailValidator.isValid(_email);
     bool passwordValid = _submited && !widget.emailValidator.isValid(_email);
-
-
-
 
     return [
       Text(

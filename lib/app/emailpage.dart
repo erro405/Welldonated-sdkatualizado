@@ -3,9 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:weeldonatedproject/app/backgound.dart';
-import 'package:weeldonatedproject/app/emailpageform.dart';
+import 'package:weeldonatedproject/app/login_screen.dart';
 import 'package:weeldonatedproject/app/mainpage.dart';
-import 'package:weeldonatedproject/app/pagina2.dart';
+import 'package:weeldonatedproject/app/choose_user_screen.dart';
+import 'package:weeldonatedproject/sign_up/signup_screen.dart';
 
 class EmailPage extends StatelessWidget {
 
@@ -83,7 +84,7 @@ class EmailPage extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => pagina2()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseUserScreen()));
                         },
                         child: Text(
                           'Registar',

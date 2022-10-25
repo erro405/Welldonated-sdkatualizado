@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/emailpage.dart';
-import 'package:weeldonatedproject/app/pagina12.dart';
+import 'package:weeldonatedproject/profile_screen/profile_screen.dart';
 
-import 'mainpage.dart';
+import '../app/mainpage.dart';
 
 
 
@@ -39,16 +39,11 @@ class _LowerappbarState extends State<Lowerappbar> {
               color: Colors.orange,
               size: 30,),),
           IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => pagina12()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
           },
             icon: Icon(Icons.account_circle,
               color: Colors.orange,
             size: 30,),),
-
-
-
-
-
         ],
       ),
     ),

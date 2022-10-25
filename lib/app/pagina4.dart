@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/pagina2.dart';
+import 'package:weeldonatedproject/app/choose_user_screen.dart';
 import 'package:weeldonatedproject/app/pagina5.dart';
 
 
@@ -22,7 +22,7 @@ class pagina4 extends StatelessWidget {
               size: 40.0,
             ),
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => pagina2()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseUserScreen()));
             },
           );
         }),

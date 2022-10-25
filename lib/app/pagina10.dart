@@ -9,7 +9,7 @@ import 'package:path/path.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:weeldonatedproject/app/mainpage.dart';
 import 'dart:io' show File, Platform;
-import 'LowerAppBar.dart';
+import '../costumwidgets/LowerAppBar.dart';
 
 class pagina10 extends StatefulWidget {
   CriarAnuncio createState() => CriarAnuncio();
@@ -39,8 +39,6 @@ class CriarAnuncio extends State<pagina10> {
 
     FirebaseApi.uploadFile(destination, image!);
   }
-
-
 
   String dropdownvalue = 'Selecione a Categoria';
   final items = [

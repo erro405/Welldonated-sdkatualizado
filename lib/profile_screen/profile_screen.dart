@@ -1,13 +1,54 @@
 
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/AnuncioPage.dart';
 import 'package:weeldonatedproject/app/Editpage.dart';
 import 'package:weeldonatedproject/app/pagina10.dart';
 import 'package:weeldonatedproject/app/pagina17.dart';
-import 'LowerAppBar.dart';
-import 'emailpage.dart';
+import '../costumwidgets/LowerAppBar.dart';
+import '../app/emailpage.dart';
 
-class pagina12 extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+
+  String? name = '';
+  String? email = '';
+  String? image = '';
+  String? phoneNo = '';
+  File? imageXFile;
+
+  Future _getDataFromDatabase() async {
+    await FirebaseFirestore.instance.collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) async
+    {
+      if(snapshot.exists) {
+        setState(() {
+          name = snapshot.data()!['name'];
+          email = snapshot.data()!['email'];
+          image = snapshot.data()!['userImage'];
+          phoneNo = snapshot.data()!['phoneNumber'];
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getDataFromDatabase();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,11 +93,27 @@ class pagina12 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 10,
+                  height: 15.0,
                 ),
-                CircleAvatar(
-                  backgroundImage: AssetImage('perfil.png'),
-                  radius: 70,
+                GestureDetector(
+                  onTap: () {
+                    //_showImageDialog
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: Colors.deepOrange,
+                    minRadius: 80.0,
+                    child: CircleAvatar(
+                      radius: 75.0,
+                      backgroundImage: imageXFile == null
+                        ?
+                        NetworkImage(
+                              image!
+                        )
+                        :
+                        Image.file
+                            (imageXFile!).image,
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 60,
@@ -75,7 +132,7 @@ class pagina12 extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        'Nelson Martins',
+                        name!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           wordSpacing: 4.0,
@@ -106,7 +163,7 @@ class pagina12 extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        'Email',
+                        email!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           wordSpacing: 4.0,
@@ -137,7 +194,7 @@ class pagina12 extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        'Telemóvel',
+                        phoneNo!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           wordSpacing: 4.0,

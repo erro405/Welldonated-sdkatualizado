@@ -26,12 +26,8 @@ class Backgound extends CustomPainter {
     //linearpath.quadraticBezierTo(width * 0.58, height * 0.8, width * 1,height);
     linearpath.close();
 
-
-
     paint.color = Colors.white;
     canvas.drawPath(linearpath, paint);
-
-
   }
 
   @override

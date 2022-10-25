@@ -4,24 +4,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/emailpage.dart';
 import 'package:weeldonatedproject/app/mainpage.dart';
-import 'package:weeldonatedproject/app/pagina3.dart';
 import 'package:weeldonatedproject/app/pagina4.dart';
+import 'package:weeldonatedproject/sign_up/signup_screen.dart';
 
 
-class pagina2 extends StatelessWidget {
+class ChooseUserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff3949ab),
-        title: Text(
-          'Voltar',
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontFamily: 'Segoi UI',
-            fontSize: 20,
-          ),
-        ),
         leadingWidth: 25,
         leading: Builder(builder: (BuildContext context) {
           return IconButton(
@@ -66,9 +58,9 @@ class pagina2 extends StatelessWidget {
                   height: 50.0,
                 ),
                 ElevatedButton(
-                  child: Image.asset('individual.png'),
+                  child: Image.asset('avatar1.png'),
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => pagina3()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,

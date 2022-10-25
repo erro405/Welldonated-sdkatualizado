@@ -1,9 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.weeldonatedproject">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
    <application
         android:label="weeldonatedproject"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+       <activity
+           android:name="com.yalantis.ucrop.UCropActivity"
+           android:screenOrientation="portrait"
+           android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
