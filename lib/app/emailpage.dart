@@ -3,15 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:weeldonatedproject/app/backgound.dart';
-import 'package:weeldonatedproject/app/login_screen.dart';
+import 'package:weeldonatedproject/log_in/login_screen.dart';
 import 'package:weeldonatedproject/app/mainpage.dart';
 import 'package:weeldonatedproject/app/choose_user_screen.dart';
 import 'package:weeldonatedproject/sign_up/signup_screen.dart';
 
 class EmailPage extends StatelessWidget {
-
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -96,7 +93,7 @@ class EmailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Image.asset('www.png'),
+                  Image.asset('epic_interpainel_logo.png'),
                 ],
               ),
             ),
@@ -117,7 +114,7 @@ class EmailPage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: EmailPageForm(),
+              child: LoginScreen(),
               elevation: 10,
               color: Colors.white,
               shadowColor: Colors.grey,
@@ -171,7 +168,7 @@ class EmailPage extends StatelessWidget {
                 ),
               ],
             ),
-            Image.asset('www.png'),
+            Image.asset('epic_interpainel_logo.png'),
           ],
         ),
       );

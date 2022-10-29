@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/pagina10.dart';
+import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 import '../profile_screen/profile_screen.dart';
 
 import '../costumwidgets/LowerAppBar.dart';
@@ -178,7 +178,7 @@ class pagina17 extends StatelessWidget {
           Icons.add,
         ),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => pagina10()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CriarAnuncio()));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

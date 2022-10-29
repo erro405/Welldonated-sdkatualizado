@@ -58,7 +58,7 @@ class ChooseUserScreen extends StatelessWidget {
                   height: 50.0,
                 ),
                 ElevatedButton(
-                  child: Image.asset('avatar1.png'),
+                  child: Image.asset('avatar.png'),
                   onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
                   },

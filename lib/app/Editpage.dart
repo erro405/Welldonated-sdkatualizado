@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
-import 'package:weeldonatedproject/app/pagina10.dart';
+import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 
 class Editpage extends StatelessWidget {
   @override
@@ -42,7 +42,7 @@ class Editpage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.orange,
         onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => pagina10()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CriarAnuncio()));
         },
           child: const Icon(Icons.add,
       color: Colors.white,)

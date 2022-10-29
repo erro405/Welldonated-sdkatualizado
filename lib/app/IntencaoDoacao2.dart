@@ -12,7 +12,7 @@ class IntencaoDoacao2 extends StatelessWidget {
       ),
       Image(
         image: AssetImage(
-          'merdinhasdotempo.png',
+          'icon_tempo.png',
         ),
       ),
       Text(

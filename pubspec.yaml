@@ -74,21 +74,17 @@ flutter:
     - imagens\icons8-mail-48.png
     - imagens\icons8-password-key-48.png
     - marliese-streefland-2l0CWTpcChI-unsplash.jpg
-    - merdinhasdotempo.png
+    - icon_tempo.png
     - interpainel.png
     - ww.png
-    - www.png
-    - wwww.jpeg
+    - epic_interpainel_logo.png
     - individual.png
     - comum.png
     - icon.png
     - bombeiros.png
-    - perfil.png
     - avatar.png
-    - avatar1.png
-
-
-
+    - plus_icon.png
+    - empty_icon.png
 
         # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

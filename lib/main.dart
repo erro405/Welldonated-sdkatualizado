@@ -10,7 +10,8 @@ import 'package:weeldonatedproject/app/mainpage.dart';
 import 'package:weeldonatedproject/app/choose_user_screen.dart';
 import 'package:weeldonatedproject/app/pagina4.dart';
 import 'package:weeldonatedproject/app/pagina5.dart';
-import 'package:weeldonatedproject/app/pagina10.dart';
+import 'package:weeldonatedproject/app/add_announcement_screen.dart';
+import 'package:weeldonatedproject/log_in/login_screen.dart';
 import 'package:weeldonatedproject/profile_screen/profile_screen.dart';
 import 'package:weeldonatedproject/app/pagina17.dart';
 import 'package:weeldonatedproject/app/pagina13.dart';
@@ -29,9 +30,6 @@ class Myapp extends StatelessWidget {
 
     return MaterialApp(
       home: HomePage(),
-        //debugShowCheckedModeBanner: false,
-      //title: 'Welldonated',
-     // home: EmailPage(),
     );
   }
 }

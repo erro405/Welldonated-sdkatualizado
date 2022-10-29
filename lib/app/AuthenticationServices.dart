@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-
-
 class AuthenticationService{
-
   final FirebaseAuth _auth = FirebaseAuth . instance ;
 
   Future createNewUser ( String email , String password ) async {
@@ -14,4 +11,6 @@ class AuthenticationService{
       return user ;
     } catch(e) {
       print(e.toString());
-    }}}
+    }
+  }
+}

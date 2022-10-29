@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/AnuncioPage.dart';
 import 'package:weeldonatedproject/app/Editpage.dart';
-import 'package:weeldonatedproject/app/pagina10.dart';
+import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 import 'package:weeldonatedproject/app/pagina17.dart';
 import '../costumwidgets/LowerAppBar.dart';
 import '../app/emailpage.dart';
@@ -246,7 +246,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => pagina10()));
+              context, MaterialPageRoute(builder: (context) => CriarAnuncio()));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

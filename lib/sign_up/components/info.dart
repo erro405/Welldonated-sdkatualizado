@@ -24,7 +24,6 @@ class _CredentialsState extends State<Credentials> {
   final TextEditingController _passwordController = TextEditingController(text: "");
   final TextEditingController _phoneNumController = TextEditingController(text: "");
 
-
   File? imageFile;
   String? imageUrl;
   
@@ -129,7 +128,7 @@ class _CredentialsState extends State<Credentials> {
               backgroundColor: Colors.white,
               backgroundImage: imageFile == null
                   ?
-                  AssetImage("imagens/avatar1.png")
+                  AssetImage("imagens/avatar.png")
                   :
                   Image.file(imageFile!).image,
             ),
