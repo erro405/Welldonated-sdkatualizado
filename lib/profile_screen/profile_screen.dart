@@ -24,8 +24,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? phoneNo = '';
   File? imageXFile;
 
+
   Future _getDataFromDatabase() async {
-    await FirebaseFirestore.instance.collection('users')
+    await FirebaseFirestore.instance.collection('posts')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((snapshot) async
