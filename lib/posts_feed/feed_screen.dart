@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,38 +6,31 @@ import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 
-
-
-
-class MainPage extends StatefulWidget{
-
+class FeedScreen extends StatefulWidget {
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<FeedScreen> createState() => _FeedScreenState();
 }
 
-class _MainPageState extends State<MainPage> {
-
+class _FeedScreenState extends State<FeedScreen> {
   String? amount = '';
   String? category = '';
   String? description = '';
   String? id = '';
-  String? createAt = '';
   String? location = '';
   String? phoneNo = '';
-  File? postImage;
+  String? postImage;
   String? title = '';
 
   Future _getDataFromDatabase() async {
-    await FirebaseFirestore.instance.collection('post')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .doc()
         .get()
-        .then((snapshot) async
-    {
-      if(snapshot.exists) {
+        .then((snapshot) async {
+      if (snapshot.exists) {
         setState(() {
           amount = snapshot.data()!['amount'];
           category = snapshot.data()!['category'];
-          createAt = snapshot.data()!['createAt'];
           description = snapshot.data()!['description'];
           id = snapshot.data()!['id'];
           location = snapshot.data()!['location'];
@@ -49,7 +41,13 @@ class _MainPageState extends State<MainPage> {
       }
     });
   }
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getDataFromDatabase();
+  }
 
   List<Tab> tab = [
     Tab(
@@ -66,7 +64,7 @@ class _MainPageState extends State<MainPage> {
         'Mobiliário',
         style: TextStyle(
           fontWeight: FontWeight.bold,
-            fontSize: 16,
+          fontSize: 16,
         ),
       ),
     ),
@@ -75,7 +73,7 @@ class _MainPageState extends State<MainPage> {
         'Animais',
         style: TextStyle(
           fontWeight: FontWeight.bold,
-            fontSize: 16,
+          fontSize: 16,
         ),
       ),
     ),
@@ -153,9 +151,7 @@ class _MainPageState extends State<MainPage> {
     ),
   ];
 
-  Widget listViewWidget(String amount, String category,
-      //String createAt,
-      String description,String id, String location, String phoneNumber, String postImage, String title){
+  Widget listViewWidget() {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Card(
@@ -163,50 +159,56 @@ class _MainPageState extends State<MainPage> {
         shadowColor: Colors.indigo,
         child: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.indigo.shade200, Colors.indigo.shade200],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              stops: const [0.2 , 0.9],
-            )
-          ),
+              gradient: LinearGradient(
+            colors: [Colors.indigo.shade200, Colors.indigo.shade200],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            stops: const [0.2, 0.9],
+          )),
           padding: EdgeInsets.all(5.0),
           child: Column(
             children: [
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   //details
                 },
                 child: Image.network(
-                  postImage,
-                fit: BoxFit.cover,),
+                  postImage!,
+                  fit: BoxFit.cover,
+                ),
               ),
               SizedBox(height: 15),
               Padding(
-                  padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-                  child: Row(
-                    children: [
-                      SizedBox(width: 10,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(title,
-                          style: TextStyle(color: Colors.white,
-                          fontWeight: FontWeight.bold,),),
-                          SizedBox(height: 10,),
-                        ],
-                      ),
-                    ],
-                  ),
+                padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title!,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               )
             ],
           ),
         ),
       ),
     );
-
   }
-
 
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -225,57 +227,42 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
         ),
-        body:
-            SingleChildScrollView(
-              child:
-        Column(
-                children: [
-                SizedBox(height: 10,
-                ),buildcard1(),
-                SizedBox(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
                 height: 10,
-                 ),
+              ),
+              buildcard1(),
+              SizedBox(
+                height: 10,
+              ),
               StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-                builder: (context, AsyncSnapshot snapshot)
-                {
-                  if(snapshot.connectionState == ConnectionState.waiting){
+                stream:
+                    FirebaseFirestore.instance.collection('posts').snapshots(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     Center(
                       child: CircularProgressIndicator(),
                     );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.active) {
+                    if (snapshot.data!.docs.isNotEmpty) {
+                      return listViewWidget();
+                    }
+                  } else {
+                    return Center(
+                      child: Text('Sem anúncios!'),
+                    );
                   }
-                  else if(snapshot.connectionState == ConnectionState.active){
-                  if(snapshot.data!.docs.isNotEmpty){
-                  return ListView.builder(
-                   scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (BuildContext context, int index){
-                      return listViewWidget(
-                       snapshot.data!.docs[index].id,
-                        snapshot.data!.docs[index]['amount'],
-                        snapshot.data!.docs[index]['category'],
-                       // snapshot.data!.docs[index]['createAt'],
-                        snapshot.data!.docs[index]['description'],
-                        snapshot.data!.docs[index]['location'],
-                        snapshot.data!.docs[index]['phoneNumber'],
-                        snapshot.data!.docs[index]['postImage'],
-                        snapshot.data!.docs[index]['title'],
-                      );
-                    },
-                  );
-                  }
-                  }
-                  else{
-                    return Center(child: Text('nada a apresentar'),);
-                }
                   return Center(
-                    child: Text('nada a apresentar 2'),
+                    child: Text('Sem anúncios!'),
                   );
-                  },
+                },
               ),
             ],
-       ),),
+          ),
+        ),
         bottomNavigationBar: Lowerappbar(),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xFFFF9800),
@@ -283,36 +270,38 @@ class _MainPageState extends State<MainPage> {
             Icons.add,
           ),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CriarAnuncio()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CriarAnuncio()));
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      );
+    );
   }
+
   Widget buildcard1() => Container(
-    width: 390,
-    child: TextField(
-      style: TextStyle(
-        //  color: Colors.white,
-      ),
-      decoration: InputDecoration(
-        hintText: 'Pesquisar',
-        hintStyle: TextStyle(
-          color: Colors.white,
+        width: 390,
+        child: TextField(
+          style: TextStyle(
+              //  color: Colors.white,
+              ),
+          decoration: InputDecoration(
+            hintText: 'Pesquisar',
+            hintStyle: TextStyle(
+              color: Colors.white,
+            ),
+            contentPadding: EdgeInsets.zero,
+            filled: true,
+            fillColor: Colors.indigo,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              borderSide: BorderSide.none,
+            ),
+            prefixIcon: Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+          ),
         ),
-        contentPadding: EdgeInsets.zero,
-        filled: true,
-        fillColor: Colors.indigo,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
-          borderSide: BorderSide.none,
-        ),
-        prefixIcon: Icon(
-          Icons.search,
-          color: Colors.white,
-        ),
-      ),
-    ),
-  );
+      );
 }

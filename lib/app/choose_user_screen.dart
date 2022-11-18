@@ -3,9 +3,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/emailpage.dart';
-import 'package:weeldonatedproject/app/mainpage.dart';
-import 'package:weeldonatedproject/app/pagina4.dart';
-import 'package:weeldonatedproject/sign_up/signup_screen.dart';
+import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
+import 'package:weeldonatedproject/sign_up_collective/signup_screen_one_collective.dart';
+import 'package:weeldonatedproject/sign_up_singular/signup_screen_singular.dart';
+
 
 
 class ChooseUserScreen extends StatelessWidget {
@@ -60,7 +61,7 @@ class ChooseUserScreen extends StatelessWidget {
                 ElevatedButton(
                   child: Image.asset('avatar.png'),
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreenSingular()));
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,
@@ -87,7 +88,7 @@ class ChooseUserScreen extends StatelessWidget {
                 ElevatedButton(
                   child: Image.asset('comum.png'),
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => pagina4()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreenOneCollective()));
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,

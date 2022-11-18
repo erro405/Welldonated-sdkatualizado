@@ -1,39 +1,22 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
-import 'package:weeldonatedproject/app/pagina4.dart';
+import 'package:weeldonatedproject/sign_up_collective/signup_screen_one_collective.dart';
 
-import 'mainpage.dart';
+import '../posts_feed/feed_screen.dart';
 
-class pagina5 extends StatefulWidget {
+class SignUpScreenTwoCollective extends StatefulWidget {
   RegistarInst createState() => RegistarInst();
 }
 
-class RegistarInst extends State<pagina5> {
-  dynamic dropdownvalue = 'Selecione a Categoria';
-  final items = [
-    'Selecione a Categoria',
-    'Animal',
-    'Apoio à vítima',
-    'Apoio à criança',
-    'Arte e Cultura',
-    'Deficiência visual',
-    'Deficiência motora',
-    'Desporto',
-    'Educação',
-    'Idosos',
-    'Juventude',
-    'Lazer',
-    'Música',
-    'Religião',
-    'Saúde',
-    'Voluntariado',
-    'Outros',
-  ];
+class RegistarInst extends State<SignUpScreenTwoCollective> {
 
-  int index = 0;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final TextEditingController _emailTextController = TextEditingController(text: "");
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +35,7 @@ class RegistarInst extends State<pagina5> {
               ),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => pagina4()));
+                    MaterialPageRoute(builder: (context) => SignUpScreenOneCollective()));
               },
             );
           }),
@@ -96,70 +79,22 @@ class RegistarInst extends State<pagina5> {
                       SizedBox(
                         height: 48.0,
                       ),
-                      Container(
-                        width: 350,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 1.3,
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                          color: Color(0xff1a237e),
-                        ),
-                        child: Theme(
-                          data: Theme.of(context)
-                              .copyWith(canvasColor: Color(0xff1a237e)),
-                          child: DropdownButtonHideUnderline(
-                            child: ButtonTheme(
-                              alignedDropdown: true,
-                              child: DropdownButton(
-                                  underline: SizedBox(),
-                                  isExpanded: true,
-                                  value: dropdownvalue,
-                                  icon: const Icon(Icons.keyboard_arrow_down),
-                                  iconSize: 35,
-                                  iconDisabledColor: Colors.white,
-                                  iconEnabledColor: Colors.white,
-                                  items: items.map((String items) {
-                                    return DropdownMenuItem(
-                                      value: items,
-                                      child: Text(items),
-                                    );
-                                  }).toList(),
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'Poppins',
-                                    color: Colors.white70,
-                                  ),
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      dropdownvalue = newValue;
-                                    });
-                                  }),
-                            ),
-                          ),
-                        ),
-                      ),
                       SizedBox(
                         height: 28.0,
                       ),
-                      Card(
-                        child: TextFormField(
-                          maxLines: 5,
+                      TextFormField(
+                          controller: _emailTextController,
+                          keyboardType: TextInputType.emailAddress,
                           cursorColor: Colors.white,
-                          textAlignVertical: TextAlignVertical.top,
-                          textAlign: TextAlign.left,
                           decoration: InputDecoration(
+                            isDense: true,
                             contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 5,
+                              vertical: 8,
+                              horizontal: 6,
                             ),
                             filled: true,
                             fillColor: Color(0xff1a237e),
-                            hintText: "Descrição (Opcional)",
+                            hintText: "E-mail",
                             hintStyle: TextStyle(
                               fontSize: 20.0,
                               fontFamily: 'Poppins',
@@ -170,16 +105,14 @@ class RegistarInst extends State<pagina5> {
                                 color: Colors.white70,
                                 width: 1.3,
                               ),
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(5.0)),
+                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Colors.white70,
                                 width: 1.3,
                               ),
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(5.0)),
+                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
                             ),
                           ),
                           style: TextStyle(
@@ -188,7 +121,6 @@ class RegistarInst extends State<pagina5> {
                             fontFamily: 'Poppins',
                           ),
                         ),
-                      ),
                       SizedBox(
                         height: 28.0,
                       ),
@@ -235,49 +167,6 @@ class RegistarInst extends State<pagina5> {
                       SizedBox(
                         height: 28.0,
                       ),
-                      TextFormField(
-                        obscureText: true,
-                        cursorColor: Colors.white,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 8,
-                            horizontal: 6,
-                          ),
-                          filled: true,
-                          fillColor: Color(0xff1a237e),
-                          hintText: "Confirmar Palavra-passe",
-                          hintStyle: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'Poppins',
-                            color: Colors.white70,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 1.3,
-                            ),
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(5.0)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 1.3,
-                            ),
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(5.0)),
-                          ),
-                        ),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                      SizedBox(
-                        height: 18.0,
-                      ),
                       Text(
                         'Ao clicar em Registar, está a concordar com os Termos do Serviço e com a Política de Privacidade da Well Donated',
                         textAlign: TextAlign.center,
@@ -296,7 +185,7 @@ class RegistarInst extends State<pagina5> {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => MainPage()));
+                              MaterialPageRoute(builder: (context) => FeedScreen()));
                         },
                         child: Text(
                           'Registar',
@@ -334,7 +223,7 @@ class RegistarInst extends State<pagina5> {
               ),
               onPressed: (){
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => pagina4()));
+                    MaterialPageRoute(builder: (context) => SignUpScreenOneCollective()));
               },
             );
           }),
@@ -397,15 +286,6 @@ class RegistarInst extends State<pagina5> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                items[index],
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 21,
-                                  fontFamily: 'Poppins',
-                                ),
-                              ),
                               Icon(
                                 Icons.keyboard_arrow_down,
                                 color: Colors.white60,
@@ -416,7 +296,7 @@ class RegistarInst extends State<pagina5> {
                             showCupertinoModalPopup(
                               context: context,
                               builder: (context) => CupertinoActionSheet(
-                                actions: [buildPicker()],
+                                //actions: [buildPicker()],
                                 cancelButton: CupertinoActionSheetAction(
                                   child: Text('Confirmar'),
                                   onPressed: () => Navigator.pop(context),
@@ -579,7 +459,7 @@ class RegistarInst extends State<pagina5> {
                       ElevatedButton(
                         onPressed: (){
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => MainPage()));
+                              MaterialPageRoute(builder: (context) => FeedScreen()));
                         },
                         child: Text(
                           'Registar',
@@ -605,29 +485,4 @@ class RegistarInst extends State<pagina5> {
     }
     throw new Container();
   }
-
-  Widget buildPicker() => SizedBox(
-    height: 200,
-    child: CupertinoPicker(
-      looping: false,
-      backgroundColor: Color(0xff1a237e),
-      itemExtent: 35,
-      children: items
-          .map(
-            (item) => Center(
-          child: Text(
-            item,
-            style: TextStyle(fontSize: 23, color: Colors.white60),
-          ),
-        ),
-      )
-          .toList(),
-      onSelectedItemChanged: (index) {
-        setState(() => this.index = index);
-
-        final item = items[index];
-        print('Item selecionado: $item');
-      },
-    ),
-  );
 }

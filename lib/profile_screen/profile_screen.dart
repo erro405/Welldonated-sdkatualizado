@@ -26,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
   Future _getDataFromDatabase() async {
-    await FirebaseFirestore.instance.collection('posts')
+    await FirebaseFirestore.instance.collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((snapshot) async
@@ -48,7 +48,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     _getDataFromDatabase();
   }
-
 
   @override
   Widget build(BuildContext context) {

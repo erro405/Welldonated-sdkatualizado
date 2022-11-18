@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../app/mainpage.dart';
+import '../../posts_feed/feed_screen.dart';
 
 class Credentials extends StatefulWidget {
   @override
@@ -255,7 +255,7 @@ class _CredentialsState extends State<Credentials> {
               fontSize: 20.0,
               fontFamily: 'Poppins',
             ),
-          ), //TELEMOVEL
+          ),
           const SizedBox(
             height: 30.0,
           ),
@@ -338,13 +338,14 @@ class _CredentialsState extends State<Credentials> {
                   'name': _fullNameController.text,
                   'email': _emailTextController.text,
                   'phoneNumber': _phoneNumController.text,
+                  'role': 'singular',
                   'createAt': Timestamp.now(),
                 });
                 Navigator.canPop(context) ? Navigator.pop(context) : null;
               } catch (error) {
                 Fluttertoast.showToast(msg: error.toString());
               }
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => FeedScreen()));
             },
             child: Text(
               'Criar conta',

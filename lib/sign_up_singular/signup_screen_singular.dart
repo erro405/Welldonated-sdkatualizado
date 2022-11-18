@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/choose_user_screen.dart';
-
 import 'components/heading_text.dart';
 import 'components/info.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreenSingular extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

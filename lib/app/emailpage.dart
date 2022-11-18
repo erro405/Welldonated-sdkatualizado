@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:weeldonatedproject/app/backgound.dart';
 import 'package:weeldonatedproject/log_in/login_screen.dart';
-import 'package:weeldonatedproject/app/mainpage.dart';
+import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
 import 'package:weeldonatedproject/app/choose_user_screen.dart';
-import 'package:weeldonatedproject/sign_up/signup_screen.dart';
+import 'package:weeldonatedproject/sign_up_singular/signup_screen_singular.dart';
 
 class EmailPage extends StatelessWidget {
   @override
@@ -39,7 +39,7 @@ class EmailPage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => FeedScreen()));
                     },
                   ),
                 ),

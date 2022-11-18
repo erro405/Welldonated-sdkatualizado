@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/emailpage.dart';
 import 'package:weeldonatedproject/profile_screen/profile_screen.dart';
 
-import '../app/mainpage.dart';
+import '../posts_feed/feed_screen.dart';
 
 
 
@@ -33,7 +33,7 @@ class _LowerappbarState extends State<Lowerappbar> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => FeedScreen()));
           },
               icon: Icon(Icons.home,
               color: Colors.orange,

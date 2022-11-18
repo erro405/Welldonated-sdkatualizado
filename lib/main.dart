@@ -6,17 +6,17 @@ import 'package:weeldonatedproject/app/Editpage.dart';
 import 'package:weeldonatedproject/app/IntencaoDoacao.dart';
 import 'package:weeldonatedproject/app/IntencaoDoacao2.dart';
 import 'package:weeldonatedproject/app/emailpage.dart';
-import 'package:weeldonatedproject/app/mainpage.dart';
+import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
 import 'package:weeldonatedproject/app/choose_user_screen.dart';
-import 'package:weeldonatedproject/app/pagina4.dart';
-import 'package:weeldonatedproject/app/pagina5.dart';
+import 'package:weeldonatedproject/sign_up_collective/signup_screen_one_collective.dart';
+import 'package:weeldonatedproject/sign_up_collective/signup_screen_two_collective.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 import 'package:weeldonatedproject/log_in/login_screen.dart';
 import 'package:weeldonatedproject/profile_screen/profile_screen.dart';
 import 'package:weeldonatedproject/app/pagina17.dart';
 import 'package:weeldonatedproject/app/pagina13.dart';
 import 'package:weeldonatedproject/app/pagina18.dart';
-import 'package:weeldonatedproject/sign_up/signup_screen.dart';
+
 
 
 void main(){

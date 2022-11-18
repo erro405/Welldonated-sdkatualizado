@@ -10,7 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path/path.dart' as Path;
 import 'package:image_picker/image_picker.dart';
-import 'package:weeldonatedproject/app/mainpage.dart';
+import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
 import '../costumwidgets/LowerAppBar.dart';
 
 class CriarAnuncio extends StatefulWidget {
@@ -155,7 +155,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                 ),
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainPage()));
+                      MaterialPageRoute(builder: (context) => FeedScreen()));
                 },
               );
             }),
@@ -526,7 +526,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                       } catch (error) {
                         Fluttertoast.showToast(msg: error.toString());
                       }
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => FeedScreen()));
                     },
                     child: Text(
                       'Publicar anúncio',
@@ -576,7 +576,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                 ),
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainPage()));
+                      MaterialPageRoute(builder: (context) => FeedScreen()));
                 },
               );
             }),

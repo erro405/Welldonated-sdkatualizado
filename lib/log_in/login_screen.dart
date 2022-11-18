@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/emailValidator.dart';
-import 'package:weeldonatedproject/app/forget_password.dart';
-import 'package:weeldonatedproject/app/mainpage.dart';
+import 'package:weeldonatedproject/forget_password/forget_password.dart';
+import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
 
 import '../costumwidgets/butaosubmit.dart';
 
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => esquecerPass()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPassword()));
         },
       ),
       ButaoSubmit(
@@ -138,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
           User? user = await loginUsingEmailPawword(email: _emailController.text, password: _passwordController.text, context: context);
           print(user);
           if(user != null){
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(context)=> MainPage()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(context)=> FeedScreen()));
           }
         },
         //submitEnabel ? _submit : null,
