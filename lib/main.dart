@@ -8,7 +8,7 @@ import 'package:weeldonatedproject/app/IntencaoDoacao2.dart';
 import 'package:weeldonatedproject/app/emailpage.dart';
 import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
 import 'package:weeldonatedproject/app/choose_user_screen.dart';
-import 'package:weeldonatedproject/sign_up_collective/signup_screen_one_collective.dart';
+import 'package:weeldonatedproject/sign_up_collective/signup_screen_collective.dart';
 import 'package:weeldonatedproject/sign_up_collective/signup_screen_two_collective.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 import 'package:weeldonatedproject/log_in/login_screen.dart';

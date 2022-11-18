@@ -1,10 +1,10 @@
-
+/*
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
-import 'package:weeldonatedproject/sign_up_collective/signup_screen_one_collective.dart';
+import 'package:weeldonatedproject/sign_up_collective/signup_screen_collective.dart';
 
 import '../posts_feed/feed_screen.dart';
 
@@ -486,3 +486,4 @@ class RegistarInst extends State<SignUpScreenTwoCollective> {
     throw new Container();
   }
 }
+*/
