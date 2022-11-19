@@ -1,13 +1,10 @@
 
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/emailpage.dart';
 import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
 import 'package:weeldonatedproject/sign_up_collective/signup_screen_collective.dart';
 import 'package:weeldonatedproject/sign_up_singular/signup_screen_singular.dart';
-
-
 
 class ChooseUserScreen extends StatelessWidget {
   @override
@@ -44,13 +41,13 @@ class ChooseUserScreen extends StatelessWidget {
                   height: 28.0,
                 ),
                 Text(
-                  'WELL DONATED',
+                  'Escolha o seu perfil...',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     wordSpacing: 4.0,
                     letterSpacing: 2.0,
                     fontFamily: 'Poppins',
-                    fontSize: 33.0,
+                    fontSize: 30.0,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),

@@ -1,10 +1,8 @@
 
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/AnuncioPage.dart';
 import 'package:weeldonatedproject/app/Editpage.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 import 'package:weeldonatedproject/app/pagina17.dart';

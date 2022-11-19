@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path/path.dart' as Path;
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
 import '../costumwidgets/LowerAppBar.dart';
 
@@ -509,10 +510,11 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
 
                         final User? user = _auth.currentUser;
                         final _uid = user!.uid;
-                        final _date = Timestamp.now().toString();
+                        final String _postId = const Uuid().v1();
 
-                        FirebaseFirestore.instance.collection('posts').doc(_date).set({
+                        FirebaseFirestore.instance.collection('posts').doc(_postId).set({
                           'id': _uid,
+                          'postId': _postId,
                           'postImage': imageUrl,
                           "title": _titlePost.text,
                           "description": _description.text,
