@@ -54,7 +54,7 @@ class _FeedScreenState extends State<FeedScreen> {
               const SizedBox(
                 height: 10,
               ),
-              //buildcard1(),
+              buildcard1(),
               const SizedBox(
                 height: 10,
               ),
@@ -86,7 +86,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                color: const Color(0xff4a5cc2),
+                                color: const Color(0xff9fa8da),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,

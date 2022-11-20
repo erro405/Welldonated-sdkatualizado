@@ -1,9 +1,17 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 
+import '../post_details/post_detail_screen.dart';
+import '../posts_feed/editar_post_page.dart';
+
 class Editpage extends StatelessWidget {
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,14 +37,121 @@ class Editpage extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: ListView(
+      body:
+      SingleChildScrollView(
+        child: Column(
           children: [
-            buildcard1(),
-            buildcard2(),
+            const SizedBox(
+              height: 10,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection("posts")
+                  .where("id", isEqualTo: _auth.currentUser!.uid)
+                  .snapshots(),
+              builder: (context, AsyncSnapshot snapshot)
+              {
+                if(snapshot.connectionState == ConnectionState.waiting){
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                else if(snapshot.connectionState == ConnectionState.active){
+                  if(snapshot.data!.docs.isNotEmpty){
+                    return ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (BuildContext context, int index){
+                        return
+                          //GestureDetector(
+                          //onTap: () {
+                            //Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetailScreen(snapshot.data!.docs[index]['postId'])));
+                          //},
+                          //child:
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              color: const Color(0xff9fa8da),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  // We overlap the image and the button by
+                                  // creating a Stack object:
+                                  Stack(
+                                    children: <Widget>[
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                                        child: Image.network(
+                                          snapshot.data!.docs[index]['postImage'],
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                      height: 5
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        ElevatedButton(onPressed: ()
+                                        {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditarAnuncio(snapshot.data!.docs[index]['postId'])));
+                                        },
+                                          child:
+                                          Text('Editar'),
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.orange,
+                                          ),
+                                        ),
+
+                                        SizedBox(width: 10,),
+
+                                         // FirebaseAuth.instance.currentUser!.uid == _auth.id
+                                           // ?
+
+                                        ElevatedButton(onPressed: ()
+                                        {
+                                              deletedata(snapshot.data!.docs[index]['postId']);
+                                          },
+                                          child: Text('Eliminar'),
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.orange,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        //);
+                      },
+                    );
+                  }
+                }
+                else{
+                  return const Center(child: Text('Sem anúncios!'),);
+                }
+                return const Center(
+                  child: Text('Sem anúncios!'),
+                );
+              },
+            ),
           ],
-        ),
-      ),
+        ),),
       bottomNavigationBar: Lowerappbar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -48,199 +163,16 @@ class Editpage extends StatelessWidget {
       color: Colors.white,)
 
         ),
+
     );
   }
 
-  Widget buildcard1() => Container(
-        child: Card(
-          color: Color(0xFF9FA8DA),
-          clipBehavior: Clip.antiAlias,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Image.asset(
-                    'marliese-streefland-2l0CWTpcChI-unsplash.jpg',
-                    height: 310,
-                    fit: BoxFit.cover,
-                  ),
-                ],
-              ),
-              Container(
+  deletedata(id) async{
+    await FirebaseFirestore.instance.collection('posts').doc(id).delete();
+  }
 
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        'Coleira de Cão',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        'Descrição: Coleira de Cão ',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 4,
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Editar',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Eliminar',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
+  //editardata(id, value) async{
+    //await FirebaseFirestore.instance.collection('posts').doc(id).update();
+  //}
 
-  Widget buildcard2() => Card(
-        color: Color(0xFF9FA8DA),
-        clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Image.asset(
-                  'marliese-streefland-2l0CWTpcChI-unsplash.jpg',
-                  height: 310,
-                  fit: BoxFit.cover,
-                ),
-              ],
-            ),
-            Container(
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 4,
-                    ),
-                    Text(
-                      'Cãozito Fixolas',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 4,
-                    ),
-                    Text(
-                      'Descrição: cãozito Fixolas cãozito Fixolas',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 4,
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Editar',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Eliminar',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
 }
