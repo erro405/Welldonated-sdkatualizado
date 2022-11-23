@@ -1,14 +1,53 @@
+import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 import 'package:weeldonatedproject/app/pagina18.dart';
-import 'Editpage.dart';
+import 'active_announcements.dart';
 import '../costumwidgets/LowerAppBar.dart';
 import 'emailpage.dart';
 
+class ProfileScreenCollective extends StatefulWidget {
+  @override
+  State<ProfileScreenCollective> createState() => _ProfileScreenCollectiveState();
+}
 
+class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
+  String? name = '';
+  String? email = '';
+  String? image = '';
+  String? phoneNo = '';
+  String? fullAddress = '';
+  String? category = '';
+  File? imageXFile;
 
-class pagina13 extends StatelessWidget {
+  Future _getDataFromDatabase() async {
+    await FirebaseFirestore.instance.collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) async
+    {
+      if(snapshot.exists) {
+        setState(() {
+          name = snapshot.data()!['name'];
+          email = snapshot.data()!['email'];
+          image = snapshot.data()!['userImage'];
+          phoneNo = snapshot.data()!['phoneNumber'];
+          fullAddress = snapshot.data()!['fullAddress'];
+          category = snapshot.data()!['category'];
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getDataFromDatabase();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +93,27 @@ class pagina13 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
-                CircleAvatar(
-                  backgroundImage: AssetImage('bombeiros.png'),
-                  radius: 65,
+                GestureDetector(
+                  onTap: () {
+                    //_showImageDialog
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: Colors.deepOrange,
+                    minRadius: 80.0,
+                    child: CircleAvatar(
+                      radius: 75.0,
+                      backgroundImage: imageXFile == null
+                          ?
+                      NetworkImage(
+                          image!
+                      )
+                          :
+                      Image.file
+                        (imageXFile!).image,
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 60,
@@ -77,7 +132,7 @@ class pagina13 extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        'B.V. da Póvoa de Lanhoso',
+                        name!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           wordSpacing: 2.0,
@@ -108,7 +163,7 @@ class pagina13 extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        'Email institucional',
+                        email!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           wordSpacing: 2.0,
@@ -139,7 +194,7 @@ class pagina13 extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        'Telemóvel',
+                        phoneNo!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           wordSpacing: 2.0,
@@ -170,7 +225,7 @@ class pagina13 extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        'Morada',
+                        fullAddress!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           wordSpacing: 2.0,
@@ -201,69 +256,7 @@ class pagina13 extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        'Código Postal',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          wordSpacing: 2.0,
-                          letterSpacing: 1.0,
-                          fontFamily: 'Poppins',
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  height: 45,
-                  width: 400,
-                  decoration: BoxDecoration(
-                    color: Color(0xff3949AB),
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Descrição',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          wordSpacing: 2.0,
-                          letterSpacing: 1.0,
-                          fontFamily: 'Poppins',
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  height: 45,
-                  width: 400,
-                  decoration: BoxDecoration(
-                    color: Color(0xff3949AB),
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Área de intervenção',
+                        category!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           wordSpacing: 2.0,
@@ -282,7 +275,7 @@ class pagina13 extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Editpage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ActiveAnnouncements()));
                   },
                   child: Text(
                     'Gerir anúncios',

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   String? image = '';
   String? uid = '';
   File? imageXFile;
-
 
   Future _getDataFromDatabase() async {
     await FirebaseFirestore.instance.collection('posts')
@@ -179,11 +177,12 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                             width: 10,
                           ),
                           Text(
-                            'Sociedade Protetora \ndos Animais do Porto',
+                            'Teste',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15),
+                                fontSize: 15
+                            ),
                           ),
                           SizedBox(
                             width: 15,
@@ -192,7 +191,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 50,),
+                  SizedBox(
+                    width: 50,
+                  ),
                   Icon(Icons.account_circle_rounded,
                     color: Color(0xFF283593),
                     size: 80,

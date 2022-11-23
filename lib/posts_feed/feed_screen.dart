@@ -99,6 +99,8 @@ class _FeedScreenState extends State<FeedScreen> {
                                           borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                                           child: Image.network(
                                             snapshot.data!.docs[index]['postImage'],
+                                            height: 250,
+                                            width: 650,
                                             fit: BoxFit.cover,
                                           ),
                                         )
@@ -140,7 +142,6 @@ class _FeedScreenState extends State<FeedScreen> {
                                               )
                                             ],
                                           ),
-
                                         ],
                                       ),
                                     )

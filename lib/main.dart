@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/post_details/post_detail_screen.dart';
-import 'package:weeldonatedproject/app/Editpage.dart';
+import 'package:weeldonatedproject/app/active_announcements.dart';
 import 'package:weeldonatedproject/app/IntencaoDoacao.dart';
 import 'package:weeldonatedproject/app/IntencaoDoacao2.dart';
 import 'package:weeldonatedproject/app/emailpage.dart';
@@ -13,7 +13,7 @@ import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 import 'package:weeldonatedproject/log_in/login_screen.dart';
 import 'package:weeldonatedproject/profile_screen/profile_screen.dart';
 import 'package:weeldonatedproject/app/pagina17.dart';
-import 'package:weeldonatedproject/app/pagina13.dart';
+import 'package:weeldonatedproject/app/profile_screen_collective.dart';
 import 'package:weeldonatedproject/app/pagina18.dart';
 
 void main(){

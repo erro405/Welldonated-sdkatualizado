@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/Editpage.dart';
+import 'package:weeldonatedproject/app/active_announcements.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 import 'package:weeldonatedproject/app/pagina17.dart';
 import '../costumwidgets/LowerAppBar.dart';
@@ -21,7 +21,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? image = '';
   String? phoneNo = '';
   File? imageXFile;
-
 
   Future _getDataFromDatabase() async {
     await FirebaseFirestore.instance.collection('users')
@@ -90,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
                 GestureDetector(
@@ -113,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 60,
                 ),
                 Container(
@@ -126,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(
@@ -144,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Container(
@@ -157,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(
@@ -175,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Container(
@@ -212,7 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Editpage()));
+                        MaterialPageRoute(builder: (context) => ActiveAnnouncements()));
                   },
                   child: Text(
                     'Gerir anúncios',

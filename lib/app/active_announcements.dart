@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,7 @@ import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 import '../post_details/post_detail_screen.dart';
 import '../posts_feed/editar_post_page.dart';
 
-class Editpage extends StatelessWidget {
+class ActiveAnnouncements extends StatelessWidget {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -27,15 +26,6 @@ class Editpage extends StatelessWidget {
         ),
         backgroundColor: Colors.indigo,
         title: Text('Anúncios ativos'),
-        actions: [
-          Icon(
-            Icons.close,
-          ),
-          Icon(
-            Icons.close,
-            color: Colors.indigo,
-          ),
-        ],
       ),
       body:
       SingleChildScrollView(
@@ -65,13 +55,7 @@ class Editpage extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, int index){
-                        return
-                          //GestureDetector(
-                          //onTap: () {
-                            //Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetailScreen(snapshot.data!.docs[index]['postId'])));
-                          //},
-                          //child:
-                        Padding(
+                        return Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                             child: Card(
                               shape: RoundedRectangleBorder(
@@ -92,11 +76,38 @@ class Editpage extends StatelessWidget {
                                           snapshot.data!.docs[index]['postImage'],
                                           fit: BoxFit.cover,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                   const SizedBox(
                                       height: 5
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(snapshot.data!.docs[index]['title'],
+                                              style: TextStyle(color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(snapshot.data!.docs[index]['description'],
+                                              style: TextStyle(color: Colors.white,
+                                                  fontSize: 15),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
