@@ -56,8 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ? 'Deseja criar uma conta?'
         : 'Já tem uma conta?';
 
-   // bool submitEnabel = widget.emailValidator.isValid(_email) &&
-      //  widget.passwordValidator.isValid(_password);
+   bool submitEnabel = widget.emailValidator.isValid(_email) &&
+        widget.passwordValidator.isValid(_password);
 
     bool emailValid = _submited && !widget.emailValidator.isValid(_email);
     bool passwordValid = _submited && !widget.emailValidator.isValid(_email);
@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
       SizedBox(
         height: 20,
       ),
-      TextField(
+      TextFormField(
         controller: _emailController,
         focusNode: _emailFocusNode,
         decoration: InputDecoration(
@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
       SizedBox(
         height: 8,
       ),
-      TextField(
+      TextFormField(
         controller: _passwordController,
         focusNode: _passwordFocusNode,
         decoration: InputDecoration(
