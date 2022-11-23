@@ -1,26 +1,26 @@
-import 'dart:io';
 
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/add_announcement_screen.dart';
-import 'package:weeldonatedproject/app/pagina18.dart';
-import 'active_announcements.dart';
-import '../costumwidgets/LowerAppBar.dart';
-import 'emailpage.dart';
 
-class ProfileScreenCollective extends StatefulWidget {
+import 'package:weeldonatedproject/active_posts/active_announcements.dart';
+import 'package:weeldonatedproject/app/add_announcement_screen.dart';
+import 'package:weeldonatedproject/app/pagina17.dart';
+import '../costumwidgets/LowerAppBar.dart';
+import '../app/emailpage.dart';
+
+class ProfileScreenSingular extends StatefulWidget {
   @override
-  State<ProfileScreenCollective> createState() => _ProfileScreenCollectiveState();
+  State<ProfileScreenSingular> createState() => _ProfileScreenSingularState();
 }
 
-class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
+class _ProfileScreenSingularState extends State<ProfileScreenSingular> {
+
   String? name = '';
   String? email = '';
   String? image = '';
   String? phoneNo = '';
-  String? fullAddress = '';
-  String? category = '';
   File? imageXFile;
 
   Future _getDataFromDatabase() async {
@@ -35,8 +35,6 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
           email = snapshot.data()!['email'];
           image = snapshot.data()!['userImage'];
           phoneNo = snapshot.data()!['phoneNumber'];
-          fullAddress = snapshot.data()!['fullAddress'];
-          category = snapshot.data()!['category'];
         });
       }
     });
@@ -61,7 +59,7 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
           ),
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => pagina18()));
+                context, MaterialPageRoute(builder: (context) => pagina17()));
           },
         ),
         backgroundColor: Color(0xff1a237e),
@@ -92,8 +90,8 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 15,
+                const SizedBox(
+                  height: 15.0,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -105,17 +103,17 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
                     child: CircleAvatar(
                       radius: 75.0,
                       backgroundImage: imageXFile == null
-                          ?
-                      NetworkImage(
-                          image!
-                      )
-                          :
-                      Image.file
-                        (imageXFile!).image,
+                        ?
+                        NetworkImage(
+                              image!
+                        )
+                        :
+                        Image.file
+                            (imageXFile!).image,
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 60,
                 ),
                 Container(
@@ -128,14 +126,14 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
                   ),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(
                         name!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          wordSpacing: 2.0,
+                          wordSpacing: 4.0,
                           letterSpacing: 1.0,
                           fontFamily: 'Poppins',
                           fontSize: 25.0,
@@ -146,7 +144,7 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Container(
@@ -159,14 +157,14 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
                   ),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(
                         email!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          wordSpacing: 2.0,
+                          wordSpacing: 4.0,
                           letterSpacing: 1.0,
                           fontFamily: 'Poppins',
                           fontSize: 25.0,
@@ -177,7 +175,7 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Container(
@@ -197,7 +195,7 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
                         phoneNo!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          wordSpacing: 2.0,
+                          wordSpacing: 4.0,
                           letterSpacing: 1.0,
                           fontFamily: 'Poppins',
                           fontSize: 25.0,
@@ -209,73 +207,12 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
                   ),
                 ),
                 SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  height: 45,
-                  width: 400,
-                  decoration: BoxDecoration(
-                    color: Color(0xff3949AB),
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        fullAddress!,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          wordSpacing: 2.0,
-                          letterSpacing: 1.0,
-                          fontFamily: 'Poppins',
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  height: 45,
-                  width: 400,
-                  decoration: BoxDecoration(
-                    color: Color(0xff3949AB),
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        category!,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          wordSpacing: 2.0,
-                          letterSpacing: 1.0,
-                          fontFamily: 'Poppins',
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 50,
+                  height: 55,
                 ),
                 ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ActiveAnnouncements()));
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Editpage()));
                   },
                   child: Text(
                     'Gerir anúncios',
@@ -306,11 +243,11 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
           Icons.add,
         ),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CriarAnuncio()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => CriarAnuncio()));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
-

@@ -72,12 +72,42 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         child: ListView(
           children: [
             _buildShowImage(),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             _buildPostDetails(),
+            const SizedBox(
+              height: 60,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+
+                  },
+                    child: Text(
+                      'DOAR',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             SizedBox(
-              height: 80,
+              height: 30,
             ),
             _buildOwnerDetails(),
             SizedBox(
@@ -150,7 +180,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold
+              ),
             ),
           ],
         ),

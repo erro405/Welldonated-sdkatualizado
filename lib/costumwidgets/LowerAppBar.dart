@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/profile_screen_collective.dart';
-import 'package:weeldonatedproject/profile_screen/profile_screen.dart';
+import 'package:weeldonatedproject/profile_screen/profile_screen_collective.dart';
+import 'package:weeldonatedproject/profile_screen/profile_screen_singular.dart';
 import '../posts_feed/feed_screen.dart';
 
 class Lowerappbar extends StatefulWidget {
@@ -64,7 +64,7 @@ class _LowerappbarState extends State<Lowerappbar> {
               if (role == 'collective') {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreenCollective()));
               } else {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreenSingular()));
               }
             },
               icon: Icon(Icons.account_circle,

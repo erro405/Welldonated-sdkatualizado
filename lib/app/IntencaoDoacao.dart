@@ -4,8 +4,6 @@ import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
 
 import 'emailpage.dart';
 
-
-
 class IntencaoDoacao extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -7,26 +8,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:path/path.dart' as Path;
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
+import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
-import '../app/add_announcement_screen.dart';
 import '../costumwidgets/LowerAppBar.dart';
 
-class EditarAnuncio extends StatefulWidget {
+class EditActiveAnnouncement extends StatefulWidget {
 
   final String postId;
-  const EditarAnuncio(this.postId);
+  const EditActiveAnnouncement(this.postId);
 
   @override
-  State<EditarAnuncio> createState() => _EditarAnuncioState();
+  State<EditActiveAnnouncement> createState() => _EditActiveAnnouncementState();
 }
 
-class _EditarAnuncioState extends State<EditarAnuncio> {
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  CollectionReference ref = FirebaseFirestore.instance.collection('posts');
+class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
 
   final TextEditingController _titlePost = new TextEditingController();
   final TextEditingController _description = new TextEditingController();
@@ -36,6 +34,8 @@ class _EditarAnuncioState extends State<EditarAnuncio> {
 
   File? imageFile;
   String? imageUrl;
+
+  String? createAt = '';
 
   String dropdownvalue = 'Selecione a Categoria';
   final items = [
@@ -61,6 +61,33 @@ class _EditarAnuncioState extends State<EditarAnuncio> {
   var _currentItemSelected = "Selecione a Categoria";
   var category = "Selecione a Categoria";
   var index = 0;
+
+  Future _getDataFromDatabase() async {
+    await FirebaseFirestore.instance.collection('posts')
+        .doc(widget.postId)
+        .get()
+        .then((snapshot) async
+    {
+      if(snapshot.exists) {
+        setState(() {
+          _titlePost.text = snapshot.data()!['title'];
+          _description.text = snapshot.data()!['description'];
+          _amount.text = snapshot.data()!['amount'];
+          _location.text = snapshot.data()!['location'];
+          _phoneNum.text = snapshot.data()!['phoneNumber'];
+          _currentItemSelected = snapshot.data()!['category'];
+          imageUrl = snapshot.data()!['postImage'];
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getDataFromDatabase();
+  }
 
   void _showImageDialog() {
     showDialog(
@@ -192,50 +219,6 @@ class _EditarAnuncioState extends State<EditarAnuncio> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  imageFile == null
-                      ?
-                  ElevatedButton(
-                    onPressed: () {
-                      _showImageDialog();
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          size: 34.0,
-                          color: Color(0xff1a237e),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Carregar fotografias',
-                          style: TextStyle(
-                            color: Color(0xff1a237e),
-                            fontSize: 20.0,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      fixedSize: Size(290, 50),
-                    ),
-                  )
-                      :
-                  Container(
-                    height: 200,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.indigo,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: Image.file(imageFile!).image,
-                        )
-                    ),
-                  ),
                   SizedBox(
                     height: 38.0,
                   ),
@@ -507,27 +490,18 @@ class _EditarAnuncioState extends State<EditarAnuncio> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-
                       try {
-                        final ref = FirebaseStorage.instance.ref().child('postImages').child(DateTime.now().toString() + '.jpg');
-                        await ref.putFile(imageFile!);
-                        imageUrl = await ref.getDownloadURL();
-
-                        final User? user = _auth.currentUser;
-                        final _uid = user!.uid;
-                        final String _postId = const Uuid().v1();
-
-                        FirebaseFirestore.instance.collection('posts').doc(_postId).set({
-                          'id': _uid,
-                          'postId': _postId,
-                          'postImage': imageUrl,
+                        FirebaseFirestore.instance.collection('posts').doc(widget.postId).set({
+                          'id': FirebaseAuth.instance.currentUser!.uid,
+                          'postId': widget.postId,
                           "title": _titlePost.text,
                           "description": _description.text,
                           "amount": _amount.text,
                           "category": _currentItemSelected,
                           "location": _location.text,
                           "phoneNumber": _phoneNum.text,
-                          'createAt': Timestamp.now(),
+                          'postImage': imageUrl,
+                          'editedAt': Timestamp.now(),
                         });
                         Navigator.canPop(context) ? Navigator.pop(context) : null;
                       } catch (error) {
@@ -536,7 +510,7 @@ class _EditarAnuncioState extends State<EditarAnuncio> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => FeedScreen()));
                     },
                     child: Text(
-                      'Publicar anúncio',
+                      'Editar anúncio',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -597,7 +571,7 @@ class _EditarAnuncioState extends State<EditarAnuncio> {
               preferredSize: Size.fromHeight(8.0)),
           elevation: 0.0,
           title: Text(
-            'Editar um artigo',
+            'Anunciar um artigo',
             textAlign: TextAlign.end,
             style: TextStyle(
               fontFamily: 'Segoi UI',
@@ -912,7 +886,7 @@ class _EditarAnuncioState extends State<EditarAnuncio> {
                   ElevatedButton(
                     onPressed: () {},
                     child: Text(
-                      'Publicar anúncio',
+                      'Editar anúncio',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -951,29 +925,29 @@ class _EditarAnuncioState extends State<EditarAnuncio> {
   }
 
   Widget buildPicker() => SizedBox(
-    height: 200,
-    child: CupertinoPicker(
-      looping: false,
-      backgroundColor: Color(0xff1a237e),
-      itemExtent: 35,
-      children: items
-          .map(
-            (item) => Center(
-          child: Text(
-            item,
-            style: TextStyle(fontSize: 23, color: Colors.white60),
-          ),
-        ),
-      )
-          .toList(),
-      onSelectedItemChanged: (index) {
-        setState(() => this.index = index);
+        height: 200,
+        child: CupertinoPicker(
+          looping: false,
+          backgroundColor: Color(0xff1a237e),
+          itemExtent: 35,
+          children: items
+              .map(
+                (item) => Center(
+                  child: Text(
+                    item,
+                    style: TextStyle(fontSize: 23, color: Colors.white60),
+                  ),
+                ),
+              )
+              .toList(),
+          onSelectedItemChanged: (index) {
+            setState(() => this.index = index);
 
-        final item = items[index];
-        print('Item selecionado: $item');
-      },
-    ),
-  );
+            final item = items[index];
+            print('Item selecionado: $item');
+          },
+        ),
+      );
 }
 
 class FirebaseApi {

@@ -2,15 +2,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:weeldonatedproject/active_posts/edit_active_announcement_screen.dart';
 import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 
-import '../post_details/post_detail_screen.dart';
-import '../posts_feed/editar_post_page.dart';
-
-class Editpage extends StatefulWidget {
-  State<Editpage> createState() => _EditpageState();
-}
+class Editpage extends StatelessWidget {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -67,13 +63,7 @@ class Editpage extends StatefulWidget {
                       shrinkWrap: true,
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, int index){
-                        return
-                          //GestureDetector(
-                          //onTap: () {
-                            //Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetailScreen(snapshot.data!.docs[index]['postId'])));
-                          //},
-                          //child:
-                        Padding(
+                        return Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                             child: Card(
                               shape: RoundedRectangleBorder(
@@ -93,6 +83,8 @@ class Editpage extends StatefulWidget {
                                         child: Image.network(
                                           snapshot.data!.docs[index]['postImage'],
                                           fit: BoxFit.cover,
+                                          height: 250,
+                                          width: 650,
                                         ),
                                       )
                                     ],
@@ -107,9 +99,39 @@ class Editpage extends StatefulWidget {
                                         const SizedBox(
                                           width: 10,
                                         ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(snapshot.data!.docs[index]['title'],
+                                              style: TextStyle(color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(snapshot.data!.docs[index]['description'],
+                                              style: TextStyle(color: Colors.white,
+                                                  fontSize: 15),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                      height: 5
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
                                         ElevatedButton(onPressed: ()
                                         {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditarAnuncio(snapshot.data!.docs[index]['postId'])));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditActiveAnnouncement(snapshot.data!.docs[index]['postId'])));
                                         },
                                           child:
                                           Text('Editar'),

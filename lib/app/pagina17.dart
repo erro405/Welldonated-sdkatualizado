@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
-import '../profile_screen/profile_screen.dart';
+import '../profile_screen/profile_screen_singular.dart';
 
 import '../costumwidgets/LowerAppBar.dart';
 
@@ -21,7 +21,7 @@ class pagina17 extends StatelessWidget {
                 size: 35.0,
               ),
               onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreenSingular()));
 
               },
             );
@@ -147,7 +147,7 @@ class pagina17 extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreenSingular()));
                   },
                   child: Text(
                     'Concluir',

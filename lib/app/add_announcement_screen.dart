@@ -681,7 +681,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                       fontSize: 20.0,
                       fontFamily: 'Poppins',
                     ),
-                  ), //Título
+                  ),
                   SizedBox(
                     height: 40.0,
                   ),
