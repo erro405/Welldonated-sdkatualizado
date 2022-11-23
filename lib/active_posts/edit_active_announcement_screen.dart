@@ -16,7 +16,6 @@ import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
 import '../costumwidgets/LowerAppBar.dart';
 
 class EditActiveAnnouncement extends StatefulWidget {
-
   final String postId;
   const EditActiveAnnouncement(this.postId);
 
@@ -34,8 +33,6 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
 
   File? imageFile;
   String? imageUrl;
-
-  String? createAt = '';
 
   String dropdownvalue = 'Selecione a Categoria';
   final items = [

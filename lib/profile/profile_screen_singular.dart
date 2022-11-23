@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:weeldonatedproject/active_posts/active_announcements.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
-import 'package:weeldonatedproject/app/pagina17.dart';
+import 'package:weeldonatedproject/profile/edit_profile_singular.dart';
 import '../costumwidgets/LowerAppBar.dart';
 import '../app/emailpage.dart';
 
@@ -59,7 +58,7 @@ class _ProfileScreenSingularState extends State<ProfileScreenSingular> {
           ),
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => pagina17()));
+                context, MaterialPageRoute(builder: (context) => EditProfileSingular()));
           },
         ),
         backgroundColor: Color(0xff1a237e),
@@ -212,7 +211,7 @@ class _ProfileScreenSingularState extends State<ProfileScreenSingular> {
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Editpage()));
+                        MaterialPageRoute(builder: (context) => ActiveAnnouncements()));
                   },
                   child: Text(
                     'Gerir anúncios',

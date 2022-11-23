@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/active_posts/active_announcements.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 import 'package:weeldonatedproject/app/pagina18.dart';
+import 'package:weeldonatedproject/profile/edit_profile_collective.dart';
 import '../costumwidgets/LowerAppBar.dart';
 import '../app/emailpage.dart';
 
@@ -60,7 +61,7 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
           ),
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => pagina18()));
+                context, MaterialPageRoute(builder: (context) => EditProfileCollective()));
           },
         ),
         backgroundColor: Color(0xff1a237e),
@@ -274,7 +275,7 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
                 ),
                 ElevatedButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Editpage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ActiveAnnouncements()));
                   },
                   child: Text(
                     'Gerir anúncios',

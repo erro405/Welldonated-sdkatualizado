@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
-import '../profile_screen/profile_screen_collective.dart';
+import 'package:weeldonatedproject/profile/profile_screen_collective.dart';
 
 import '../costumwidgets/LowerAppBar.dart';
 

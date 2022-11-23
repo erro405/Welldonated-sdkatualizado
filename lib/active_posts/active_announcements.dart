@@ -3,10 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/active_posts/edit_active_announcement_screen.dart';
+import 'package:weeldonatedproject/active_posts/view_donation_announcements.dart';
 import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 
-class Editpage extends StatelessWidget {
+class ActiveAnnouncements extends StatelessWidget {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -63,104 +64,109 @@ class Editpage extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, int index){
-                        return Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              color: const Color(0xff9fa8da),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  // We overlap the image and the button by
-                                  // creating a Stack object:
-                                  Stack(
-                                    children: <Widget>[
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                                        child: Image.network(
-                                          snapshot.data!.docs[index]['postImage'],
-                                          fit: BoxFit.cover,
-                                          height: 250,
-                                          width: 650,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                      height: 5
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-                                    child: Row(
-                                      children: [
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(snapshot.data!.docs[index]['title'],
-                                              style: TextStyle(color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(snapshot.data!.docs[index]['description'],
-                                              style: TextStyle(color: Colors.white,
-                                                  fontSize: 15),
-                                            ),
-                                          ],
-                                        ),
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ViewDonationAnnouncements(snapshot.data!.docs[index]['postId'])));
+                          },
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                color: const Color(0xff9fa8da),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    // We overlap the image and the button by
+                                    // creating a Stack object:
+                                    Stack(
+                                      children: <Widget>[
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                                          child: Image.network(
+                                            snapshot.data!.docs[index]['postImage'],
+                                            fit: BoxFit.cover,
+                                            height: 250,
+                                            width: 650,
+                                          ),
+                                        )
                                       ],
                                     ),
-                                  ),
-                                  const SizedBox(
-                                      height: 5
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-                                    child: Row(
-                                      children: [
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        ElevatedButton(onPressed: ()
-                                        {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditActiveAnnouncement(snapshot.data!.docs[index]['postId'])));
-                                        },
-                                          child:
-                                          Text('Editar'),
-                                          style: ElevatedButton.styleFrom(
-                                            primary: Colors.orange,
+                                    const SizedBox(
+                                        height: 5
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                                      child: Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 10,
                                           ),
-                                        ),
-
-                                        SizedBox(width: 10,),
-
-                                         // FirebaseAuth.instance.currentUser!.uid == _auth.id
-                                           // ?
-
-                                        ElevatedButton(onPressed: ()
-                                        {
-                                              deletedata(snapshot.data!.docs[index]['postId']);
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(snapshot.data!.docs[index]['title'],
+                                                style: TextStyle(color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(snapshot.data!.docs[index]['description'],
+                                                style: TextStyle(color: Colors.white,
+                                                    fontSize: 15),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                        height: 5
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                                      child: Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          ElevatedButton(onPressed: ()
+                                          {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => EditActiveAnnouncement(snapshot.data!.docs[index]['postId'])));
                                           },
-                                          child: Text('Eliminar'),
-                                          style: ElevatedButton.styleFrom(
-                                            primary: Colors.orange,
+                                            child:
+                                            Text('Editar'),
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.orange,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
+
+                                          SizedBox(width: 10,),
+
+                                           // FirebaseAuth.instance.currentUser!.uid == _auth.id
+                                             // ?
+
+                                          ElevatedButton(onPressed: ()
+                                          {
+                                                deletedata(snapshot.data!.docs[index]['postId']);
+                                            },
+                                            child: Text('Eliminar'),
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.orange,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          );
+                        );
                         //);
                       },
                     );
