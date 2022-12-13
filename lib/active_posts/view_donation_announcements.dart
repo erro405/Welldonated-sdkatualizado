@@ -16,7 +16,6 @@ class ViewDonationAnnouncements extends StatefulWidget {
 }
 
 class _ViewDonationAnnouncementsState extends State<ViewDonationAnnouncements> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +32,6 @@ class _ViewDonationAnnouncementsState extends State<ViewDonationAnnouncements> {
         ),
         backgroundColor: Colors.indigo,
         title: Text('Ofertas ativas'),
-        actions: [
-          Icon(
-            Icons.close,
-          ),
-          Icon(
-            Icons.close,
-            color: Colors.indigo,
-          ),
-        ],
       ),
       body:
       SingleChildScrollView(
@@ -68,6 +58,7 @@ class _ViewDonationAnnouncementsState extends State<ViewDonationAnnouncements> {
                 else if(snapshot.connectionState == ConnectionState.active){
                   if(snapshot.data!.docs.isNotEmpty){
                     return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: snapshot.data!.docs.length,

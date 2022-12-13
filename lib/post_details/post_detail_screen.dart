@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
+import 'package:weeldonatedproject/post_details/profile_details_publisher.dart';
 import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
 
 class PostDetailScreen extends StatefulWidget {
 
   final String postId;
-  const PostDetailScreen(this.postId);
+  final String publishUid;
+  const PostDetailScreen(this.postId, this.publishUid);
 
   @override
   State<PostDetailScreen> createState() => _PostDetailScreenState();
@@ -26,6 +28,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   String? image = '';
   String? uid = '';
   File? imageXFile;
+
+  String? publishUsername = '';
+  String? userImage = '';
 
   Future _getDataFromDatabase() async {
     await FirebaseFirestore.instance.collection('posts')
@@ -44,69 +49,134 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     });
   }
 
+  Future _getDataFromPublishUser() async {
+    await FirebaseFirestore.instance.collection('users')
+        .doc(widget.publishUid)
+        .get()
+        .then((snapshot) async
+    {
+      if(snapshot.exists) {
+        setState(() {
+          publishUsername = snapshot.data()!['name'];
+          userImage = snapshot.data()!['userImage'];
+        });
+      }
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getDataFromDatabase();
+    _getDataFromPublishUser();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF283593),
-      appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(width: 2, color: Colors.white),
+    if (_auth.currentUser!.isAnonymous) {
+      return Scaffold(
+        backgroundColor: Color(0xFF283593),
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: 2, color: Colors.white),
+              ),
+            ),
+          ),
+          backgroundColor: Color(0xFF283593),
+          title: Text(
+            'Detalhes do anúncio',
+            textAlign: TextAlign.end,
+            style: TextStyle(
+              fontFamily: 'Segoi UI',
+              fontSize: 23,
             ),
           ),
         ),
+        body: Center(
+          child: Container(
+            child: ListView(
+              children: [
+                _buildShowImage(),
+                const SizedBox(
+                  height: 20,
+                ),
+                _buildPostDetails(),
+                const SizedBox(
+                  height: 60,
+                ),
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: Lowerappbar(),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xFFFF9800),
+          child: Icon(
+            Icons.add,
+          ),
+          onPressed: () {},
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      );
+    } else {
+      return Scaffold(
         backgroundColor: Color(0xFF283593),
-        title: Text(
-          'Detalhes do anúncio',
-          textAlign: TextAlign.end,
-          style: TextStyle(
-            fontFamily: 'Segoi UI',
-            fontSize: 23,
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: 2, color: Colors.white),
+              ),
+            ),
+          ),
+          backgroundColor: Color(0xFF283593),
+          title: Text(
+            'Detalhes do anúncio',
+            textAlign: TextAlign.end,
+            style: TextStyle(
+              fontFamily: 'Segoi UI',
+              fontSize: 23,
+            ),
           ),
         ),
-      ),
-      body: Center(
-        child: Container(
-          child: ListView(
-            children: [
-              _buildShowImage(),
-              const SizedBox(
-                height: 20,
-              ),
-              _buildPostDetails(),
-              const SizedBox(
-                height: 60,
-              ),
-              _buildDonateField(),
-              SizedBox(
-                height: 30,
-              ),
-              _buildOwnerDetails(),
-              SizedBox(
-                height: 50,
-              ),
-            ],
+        body: Center(
+          child: Container(
+            child: ListView(
+              children: [
+                _buildShowImage(),
+                const SizedBox(
+                  height: 20,
+                ),
+                _buildPostDetails(),
+                const SizedBox(
+                  height: 60,
+                ),
+                _buildDonateField(),
+                SizedBox(
+                  height: 30,
+                ),
+                _buildOwnerDetails(),
+                SizedBox(
+                  height: 50,
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: Lowerappbar(),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFFFF9800),
-        child: Icon(
-          Icons.add,
+        bottomNavigationBar: Lowerappbar(),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xFFFF9800),
+          child: Icon(
+            Icons.add,
+          ),
+          onPressed: () {},
         ),
-        onPressed: () {},
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      );
+    }
   }
 
   Widget _buildShowImage() => Container(
@@ -291,7 +361,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                             width: 10,
                           ),
                           Text(
-                            'Teste',
+                            publishUsername!,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -308,9 +378,25 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   SizedBox(
                     width: 50,
                   ),
-                  Icon(Icons.account_circle_rounded,
-                    color: Color(0xFF283593),
-                    size: 80,
+                  GestureDetector(
+                    onTap: () {
+                      //_showImageDialog
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: Colors.deepOrange,
+                      minRadius: 40.0,
+                      child: CircleAvatar(
+                        radius: 38.0,
+                        backgroundImage: imageXFile == null
+                            ?
+                        NetworkImage(
+                            userImage!
+                        )
+                            :
+                        Image.file
+                          (imageXFile!).image,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -327,7 +413,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                     SizedBox(
                       height: 30,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileDetailPublisher(widget.publishUid)));
+                        },
                         child: Text(
                           'Mais Informações',
                           style: TextStyle(

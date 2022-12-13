@@ -26,15 +26,6 @@ class ActiveAnnouncements extends StatelessWidget {
         ),
         backgroundColor: Colors.indigo,
         title: Text('Anúncios ativos'),
-        actions: [
-          Icon(
-            Icons.close,
-          ),
-          Icon(
-            Icons.close,
-            color: Colors.indigo,
-          ),
-        ],
       ),
       body:
       SingleChildScrollView(
@@ -60,6 +51,7 @@ class ActiveAnnouncements extends StatelessWidget {
                 else if(snapshot.connectionState == ConnectionState.active){
                   if(snapshot.data!.docs.isNotEmpty){
                     return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: snapshot.data!.docs.length,

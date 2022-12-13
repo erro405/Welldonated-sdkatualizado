@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:weeldonatedproject/app/anonymous_login_profile.dart';
 import 'package:weeldonatedproject/profile/profile_screen_collective.dart';
 import 'package:weeldonatedproject/profile/profile_screen_singular.dart';
 import '../posts_feed/feed_screen.dart';
@@ -11,6 +12,8 @@ class Lowerappbar extends StatefulWidget {
 }
 
 class _LowerappbarState extends State<Lowerappbar> {
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   String? role = '';
 
@@ -63,6 +66,8 @@ class _LowerappbarState extends State<Lowerappbar> {
             IconButton(onPressed: (){
               if (role == 'collective') {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreenCollective()));
+              } else if (_auth.currentUser!.isAnonymous) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AnonymousLoginProfile()));
               } else {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreenSingular()));
               }

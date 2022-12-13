@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,12 +8,16 @@ import 'package:weeldonatedproject/profile/edit_profile_singular.dart';
 import '../costumwidgets/LowerAppBar.dart';
 import '../app/emailpage.dart';
 
-class ProfileScreenSingular extends StatefulWidget {
+class ProfileDetailPublisher extends StatefulWidget {
+
+  final String publishUid;
+  const ProfileDetailPublisher(this.publishUid);
+
   @override
-  State<ProfileScreenSingular> createState() => _ProfileScreenSingularState();
+  State<ProfileDetailPublisher> createState() => _ProfileDetailPublisherState();
 }
 
-class _ProfileScreenSingularState extends State<ProfileScreenSingular> {
+class _ProfileDetailPublisherState extends State<ProfileDetailPublisher> {
 
   String? name = '';
   String? email = '';
@@ -24,7 +27,7 @@ class _ProfileScreenSingularState extends State<ProfileScreenSingular> {
 
   Future _getDataFromDatabase() async {
     await FirebaseFirestore.instance.collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(widget.publishUid)
         .get()
         .then((snapshot) async
     {
@@ -50,34 +53,7 @@ class _ProfileScreenSingularState extends State<ProfileScreenSingular> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          alignment: Alignment.centerRight,
-          icon: const Icon(
-            Icons.edit,
-            size: 35.0,
-          ),
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => EditProfileSingular()));
-          },
-        ),
         backgroundColor: Color(0xff1a237e),
-        actions: [
-          Builder(builder: (BuildContext context) {
-            return IconButton(
-              alignment: Alignment.centerRight,
-              icon: const Icon(
-                Icons.logout_rounded,
-                size: 35.0,
-              ),
-              onPressed: () {
-                _signOut();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => EmailPage()));
-              },
-            );
-          }),
-        ],
         elevation: 0.0,
       ),
       body: Container(
@@ -103,13 +79,13 @@ class _ProfileScreenSingularState extends State<ProfileScreenSingular> {
                     child: CircleAvatar(
                       radius: 75.0,
                       backgroundImage: imageXFile == null
-                        ?
-                        NetworkImage(
-                              image!
-                        )
-                        :
-                        Image.file
-                            (imageXFile!).image,
+                          ?
+                      NetworkImage(
+                          image!
+                      )
+                          :
+                      Image.file
+                        (imageXFile!).image,
                     ),
                   ),
                 ),
@@ -206,31 +182,6 @@ class _ProfileScreenSingularState extends State<ProfileScreenSingular> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 55,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ActiveAnnouncements()));
-                  },
-                  child: Text(
-                    'Gerir anúncios',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22.0,
-                      fontFamily: 'Poppins',
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xffef6C00),
-                    fixedSize: Size(180, 50),
-                  ),
-                ),
-                SizedBox(
-                  height: 60,
-                ),
               ],
             ),
           ),
@@ -249,9 +200,5 @@ class _ProfileScreenSingularState extends State<ProfileScreenSingular> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
-  }
-
-  Future<void> _signOut() async {
-    await FirebaseAuth.instance.signOut();
   }
 }

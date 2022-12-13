@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weeldonatedproject/app/backgound.dart';
+import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
 import 'package:weeldonatedproject/log_in/login_screen.dart';
 import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
 import 'package:weeldonatedproject/app/choose_user_screen.dart';
 
-class EmailPage extends StatelessWidget {
+class AnonymousLoginProfile extends StatelessWidget {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -24,29 +25,7 @@ class EmailPage extends StatelessWidget {
                 Image.asset(
                   'ww.png',
                   fit: BoxFit.fill,
-                ),
-                SizedBox(
-                  width: 200,
-                ),
-                Container(
-                  child: TextButton(
-                    style: ButtonStyle(),
-                    child: const Text(
-                      'Ignorar',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                    onPressed: () async {
-                      await _auth.signInAnonymously();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => FeedScreen()));
-                    },
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
+                )
               ],
             ),
           ),
@@ -127,50 +106,50 @@ class EmailPage extends StatelessWidget {
   }
 
   Widget buildcard1() => Container(
-        color: Color(0xFF283593),
-        width: 350,
-        child: Text(
-          'WELL DONATED',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-      );
+    color: Color(0xFF283593),
+    width: 350,
+    child: Text(
+      'WELL DONATED',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 40,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+  );
 
   Widget buildcard2() => Container(
-        color: Colors.white,
-        width: 350,
-        child: Column(
-          children: [
-            Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 100,
-                ),
-                Text(
-                  'Ainda não têm conta?',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 15,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Registar',
-                    style: TextStyle(
-                      color: Colors.deepOrange,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-              ],
+    color: Colors.white,
+    width: 350,
+    child: Column(
+      children: [
+        Row(
+          children: <Widget>[
+            SizedBox(
+              width: 100,
             ),
-            Image.asset('epic_interpainel_logo.png'),
+            Text(
+              'Ainda não têm conta?',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 15,
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                'Registar',
+                style: TextStyle(
+                  color: Colors.deepOrange,
+                  fontSize: 15,
+                ),
+              ),
+            ),
           ],
         ),
-      );
+        Image.asset('epic_interpainel_logo.png'),
+      ],
+    ),
+  );
 }

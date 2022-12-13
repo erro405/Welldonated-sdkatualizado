@@ -74,6 +74,7 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
                 size: 35.0,
               ),
               onPressed: () {
+                _signOut();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => EmailPage()));
               },
@@ -311,6 +312,10 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }
 

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:weeldonatedproject/app/anonymous_login_profile.dart';
 import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
 import 'package:weeldonatedproject/app/add_announcement_screen.dart';
 import 'package:weeldonatedproject/post_details/post_detail_screen.dart';
@@ -72,13 +73,14 @@ class _FeedScreenState extends State<FeedScreen> {
                   else if(snapshot.connectionState == ConnectionState.active){
                     if(snapshot.data!.docs.isNotEmpty){
                       return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (BuildContext context, int index){
                           return GestureDetector(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetailScreen(snapshot.data!.docs[index]['postId'])));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetailScreen(snapshot.data!.docs[index]['postId'], snapshot.data!.docs[index]['id'])));
                             },
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
@@ -155,10 +157,22 @@ class _FeedScreenState extends State<FeedScreen> {
                     }
                   }
                   else{
-                    return const Center(child: Text('Sem anúncios!'),);
+                    return const Center(
+                      child: Text(
+                          'Sem anúncios!',
+                        style: TextStyle(
+                            color: Colors.white
+                        ),
+                      ),
+                    );
                   }
                   return const Center(
-                    child: Text('Sem anúncios!'),
+                    child: Text(
+                      'Sem anúncios!',
+                      style: TextStyle(
+                          color: Colors.white
+                      ),
+                    ),
                   );
                 },
               ),
@@ -171,7 +185,11 @@ class _FeedScreenState extends State<FeedScreen> {
             Icons.add,
           ),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CriarAnuncio()));
+            if (_auth.currentUser!.isAnonymous) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AnonymousLoginProfile()));
+            } else {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CriarAnuncio()));
+            }
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
