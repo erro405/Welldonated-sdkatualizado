@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/emailpage.dart';
+
+import 'app/emailpage.dart';
 
 void main(){
    runApp(Myapp());

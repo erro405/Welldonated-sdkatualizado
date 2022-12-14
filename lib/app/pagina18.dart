@@ -1,9 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/add_announcement_screen.dart';
-import 'package:weeldonatedproject/profile/profile_screen_collective.dart';
-
 import '../costumwidgets/LowerAppBar.dart';
+import '../profile/profile_screen_collective.dart';
+import 'add_announcement_screen.dart';
 
 class pagina18 extends StatelessWidget {
 

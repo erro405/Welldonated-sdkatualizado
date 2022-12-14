@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -11,8 +10,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:path/path.dart' as Path;
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
-import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
 import '../costumwidgets/LowerAppBar.dart';
+import '../posts_feed/feed_screen.dart';
 
 class CriarAnuncio extends StatefulWidget {
   @override
@@ -35,21 +34,14 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
   String dropdownvalue = 'Selecione a Categoria';
   final items = [
     'Selecione a Categoria',
-    'Animal',
-    'Apoio à vítima',
-    'Apoio à criança',
-    'Arte e Cultura',
-    'Deficiência visual',
-    'Deficiência motora',
-    'Desporto',
+    'Mobiliário',
+    'Animais',
+    'Alimentação',
+    'Criança',
+    'Vestuário',
+    'Cultura',
     'Educação',
-    'Idosos',
-    'Juventude',
-    'Lazer',
-    'Música',
-    'Religião',
     'Saúde',
-    'Voluntariado',
     'Outros',
   ];
 

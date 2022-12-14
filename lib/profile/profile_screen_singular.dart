@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/active_posts/active_announcements.dart';
-import 'package:weeldonatedproject/app/add_announcement_screen.dart';
-import 'package:weeldonatedproject/profile/edit_profile_singular.dart';
+import '../active_posts/active_announcements.dart';
+import '../app/add_announcement_screen.dart';
 import '../costumwidgets/LowerAppBar.dart';
 import '../app/emailpage.dart';
+import 'edit_profile_singular.dart';
 
 class ProfileScreenSingular extends StatefulWidget {
   @override

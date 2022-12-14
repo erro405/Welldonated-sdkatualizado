@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/costumwidgets/butoes.dart';
+import 'butoes.dart';
 
 class ButaoSubmit extends butoes {
 

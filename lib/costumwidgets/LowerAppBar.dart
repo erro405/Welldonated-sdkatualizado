@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/anonymous_login_profile.dart';
-import 'package:weeldonatedproject/profile/profile_screen_collective.dart';
-import 'package:weeldonatedproject/profile/profile_screen_singular.dart';
+import '../app/anonymous_login_profile.dart';
 import '../posts_feed/feed_screen.dart';
+import '../profile/profile_screen_collective.dart';
+import '../profile/profile_screen_singular.dart';
 
 class Lowerappbar extends StatefulWidget {
   @override

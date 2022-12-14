@@ -2,9 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/active_posts/edit_active_announcement_screen.dart';
-import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
-import 'package:weeldonatedproject/app/add_announcement_screen.dart';
+import '../app/add_announcement_screen.dart';
+import '../costumwidgets/LowerAppBar.dart';
 
 class ViewDonationAnnouncements extends StatefulWidget {
 
@@ -107,19 +106,17 @@ class _ViewDonationAnnouncementsState extends State<ViewDonationAnnouncements> {
                                       height: 5
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                                    padding: EdgeInsets.only(left:28, right: 28, bottom: 8),
                                     child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
                                         Text(snapshot.data!.docs[index]['phoneNumber'],
                                           style: TextStyle(color: Colors.white,
                                               fontSize: 15),
                                         ),
-                                        SizedBox(
-                                          width: 180,
-                                        ),
+                                        //SizedBox(
+                                          //width: 180,
+                                        //),
                                         Text('Quantidade: ' + snapshot.data!.docs[index]['amount'],
                                           style: TextStyle(color: Colors.white,
                                               fontSize: 15),

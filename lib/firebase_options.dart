@@ -64,6 +64,6 @@ class DefaultFirebaseOptions {
     projectId: 'welldonated-61f8a',
     storageBucket: 'welldonated-61f8a.appspot.com',
     iosClientId: '178675810011-o9opk5qvhra3u404202vsvo6166g8uuf.apps.googleusercontent.com',
-    iosBundleId: 'com.example.weeldonatedproject',
+    iosBundleId: 'com.example.welldonated',
   );
 }

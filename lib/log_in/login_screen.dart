@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/emailValidator.dart';
-import 'package:weeldonatedproject/forget_password/forget_password.dart';
-import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
-
+import '../app/emailValidator.dart';
 import '../costumwidgets/butaosubmit.dart';
+import '../forget_password/forget_password.dart';
+import '../posts_feed/feed_screen.dart';
 
 enum EmailPageFormType { signIn, register }
 

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:weeldonatedproject/app/add_announcement_screen.dart';
+import '../app/add_announcement_screen.dart';
 import 'profile_screen_singular.dart';
 
 import '../costumwidgets/LowerAppBar.dart';

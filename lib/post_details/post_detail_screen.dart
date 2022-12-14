@@ -1,12 +1,14 @@
 import 'dart:io';
+import 'package:WellDonated/post_details/profile_details_publisher_collective.dart';
+import 'package:WellDonated/post_details/profile_details_publisher_singular.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
-import 'package:weeldonatedproject/post_details/profile_details_publisher.dart';
-import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
+
+import '../costumwidgets/LowerAppBar.dart';
+import '../posts_feed/feed_screen.dart';
 
 class PostDetailScreen extends StatefulWidget {
 
@@ -27,9 +29,11 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   String? description = '';
   String? image = '';
   String? uid = '';
+  String? location = '';
   File? imageXFile;
 
   String? publishUsername = '';
+  String? publishRole = '';
   String? userImage = '';
 
   Future _getDataFromDatabase() async {
@@ -44,6 +48,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           description = snapshot.data()!['description'];
           image = snapshot.data()!['postImage'];
           uid = snapshot.data()!['id'];
+          location = snapshot.data()!['location'];
         });
       }
     });
@@ -58,6 +63,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
       if(snapshot.exists) {
         setState(() {
           publishUsername = snapshot.data()!['name'];
+          publishRole = snapshot.data()!['role'];
           userImage = snapshot.data()!['userImage'];
         });
       }
@@ -349,23 +355,45 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         Column(
           children: [
             Container(
-              color: const Color(0xff4a5cc2),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                color: const Color(0xff4a5cc2),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
               child: Row(
                 children: <Widget>[
                   Container(
-                    child: Align(
-                      alignment: Alignment.topLeft,
                       child: Row(
                         children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ),
                           Text(
-                            publishUsername!,
-                            style: TextStyle(
+                            publishUsername! + "\n" + location!,
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15
+                                fontSize: 17
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 50,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              //_showImageDialog
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.deepOrange,
+                              minRadius: 45.0,
+                              child: CircleAvatar(
+                                radius: 42.0,
+                                backgroundImage: imageXFile == null
+                                    ?
+                                NetworkImage(
+                                    userImage!
+                                )
+                                    :
+                                Image.file
+                                  (imageXFile!).image,
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -373,48 +401,30 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      //_showImageDialog
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: Colors.deepOrange,
-                      minRadius: 40.0,
-                      child: CircleAvatar(
-                        radius: 38.0,
-                        backgroundImage: imageXFile == null
-                            ?
-                        NetworkImage(
-                            userImage!
-                        )
-                            :
-                        Image.file
-                          (imageXFile!).image,
-                      ),
-                    ),
                   ),
                 ],
               ),
             ),
             Container(
-              color: const Color(0xff4a5cc2),
+              padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
+                color: const Color(0xff4a5cc2),
+              ),
               child: Align(
-                alignment: Alignment.topLeft,
+                alignment: Alignment.topRight,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 10,
-                    ),
                     SizedBox(
                       height: 30,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileDetailPublisher(widget.publishUid)));
+                          if (publishRole!.contains("singular")) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileDetailPublisherSingular(widget.publishUid)));
+                          } else {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileDetailPublisherCollective(widget.publishUid)));
+                          }
                         },
                         child: Text(
                           'Mais Informações',

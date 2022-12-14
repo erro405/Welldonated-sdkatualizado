@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:weeldonatedproject/app/choose_user_screen.dart';
-import 'package:weeldonatedproject/app/emailpage.dart';
-import 'package:weeldonatedproject/log_in/login_screen.dart';
+
+import '../../app/choose_user_screen.dart';
+import '../../app/emailpage.dart';
 
 class Credentials extends StatefulWidget {
   @override

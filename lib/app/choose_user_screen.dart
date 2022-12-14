@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/emailpage.dart';
-import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
-import 'package:weeldonatedproject/sign_up_collective/signup_screen_collective.dart';
-import 'package:weeldonatedproject/sign_up_singular/signup_screen_singular.dart';
+import '../sign_up_collective/signup_screen_collective.dart';
+import '../sign_up_singular/signup_screen_singular.dart';
+import 'emailpage.dart';
 
 class ChooseUserScreen extends StatelessWidget {
   @override

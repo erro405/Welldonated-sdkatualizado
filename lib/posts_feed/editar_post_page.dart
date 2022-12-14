@@ -9,9 +9,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
-import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
 import '../app/add_announcement_screen.dart';
 import '../costumwidgets/LowerAppBar.dart';
+import 'feed_screen.dart';
 
 class EditarAnuncio extends StatefulWidget {
 

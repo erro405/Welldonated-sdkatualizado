@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
 
+import '../costumwidgets/LowerAppBar.dart';
 import 'emailpage.dart';
 
 class IntencaoDoacao extends StatelessWidget {

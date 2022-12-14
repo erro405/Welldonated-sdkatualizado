@@ -11,9 +11,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:path/path.dart' as Path;
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
-import 'package:weeldonatedproject/app/add_announcement_screen.dart';
-import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
+import '../app/add_announcement_screen.dart';
 import '../costumwidgets/LowerAppBar.dart';
+import '../posts_feed/feed_screen.dart';
 
 class EditActiveAnnouncement extends StatefulWidget {
   final String postId;

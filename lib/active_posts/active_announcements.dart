@@ -2,10 +2,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/active_posts/edit_active_announcement_screen.dart';
-import 'package:weeldonatedproject/active_posts/view_donation_announcements.dart';
-import 'package:weeldonatedproject/costumwidgets/LowerAppBar.dart';
-import 'package:weeldonatedproject/app/add_announcement_screen.dart';
+import '../app/add_announcement_screen.dart';
+import '../costumwidgets/LowerAppBar.dart';
+import 'edit_active_announcement_screen.dart';
+import 'view_donation_announcements.dart';
+
 
 class ActiveAnnouncements extends StatelessWidget {
 

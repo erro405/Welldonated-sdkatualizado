@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/choose_user_screen.dart';
+import '../app/choose_user_screen.dart';
 import 'components/heading_text.dart';
 import 'components/info.dart';
 

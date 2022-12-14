@@ -2,27 +2,27 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/active_posts/active_announcements.dart';
-import 'package:weeldonatedproject/app/add_announcement_screen.dart';
-import 'package:weeldonatedproject/profile/edit_profile_singular.dart';
+import '../app/add_announcement_screen.dart';
 import '../costumwidgets/LowerAppBar.dart';
 import '../app/emailpage.dart';
 
-class ProfileDetailPublisher extends StatefulWidget {
+class ProfileDetailPublisherCollective extends StatefulWidget {
 
   final String publishUid;
-  const ProfileDetailPublisher(this.publishUid);
+  const ProfileDetailPublisherCollective(this.publishUid);
 
   @override
-  State<ProfileDetailPublisher> createState() => _ProfileDetailPublisherState();
+  State<ProfileDetailPublisherCollective> createState() => _ProfileDetailPublisherCollectiveState();
 }
 
-class _ProfileDetailPublisherState extends State<ProfileDetailPublisher> {
+class _ProfileDetailPublisherCollectiveState extends State<ProfileDetailPublisherCollective> {
 
   String? name = '';
   String? email = '';
   String? image = '';
   String? phoneNo = '';
+  String? fullAddress = '';
+  String? category = '';
   File? imageXFile;
 
   Future _getDataFromDatabase() async {
@@ -37,6 +37,8 @@ class _ProfileDetailPublisherState extends State<ProfileDetailPublisher> {
           email = snapshot.data()!['email'];
           image = snapshot.data()!['userImage'];
           phoneNo = snapshot.data()!['phoneNumber'];
+          fullAddress = snapshot.data()!['fullAddress'];
+          category = snapshot.data()!['category'];
         });
       }
     });
@@ -66,8 +68,8 @@ class _ProfileDetailPublisherState extends State<ProfileDetailPublisher> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 15.0,
+                SizedBox(
+                  height: 15,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -89,7 +91,7 @@ class _ProfileDetailPublisherState extends State<ProfileDetailPublisher> {
                     ),
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 60,
                 ),
                 Container(
@@ -102,14 +104,14 @@ class _ProfileDetailPublisherState extends State<ProfileDetailPublisher> {
                   ),
                   child: Column(
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         height: 8,
                       ),
                       Text(
                         name!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          wordSpacing: 4.0,
+                          wordSpacing: 2.0,
                           letterSpacing: 1.0,
                           fontFamily: 'Poppins',
                           fontSize: 25.0,
@@ -120,7 +122,7 @@ class _ProfileDetailPublisherState extends State<ProfileDetailPublisher> {
                     ],
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 30,
                 ),
                 Container(
@@ -133,14 +135,14 @@ class _ProfileDetailPublisherState extends State<ProfileDetailPublisher> {
                   ),
                   child: Column(
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         height: 8,
                       ),
                       Text(
                         email!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          wordSpacing: 4.0,
+                          wordSpacing: 2.0,
                           letterSpacing: 1.0,
                           fontFamily: 'Poppins',
                           fontSize: 25.0,
@@ -151,7 +153,7 @@ class _ProfileDetailPublisherState extends State<ProfileDetailPublisher> {
                     ],
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 30,
                 ),
                 Container(
@@ -171,7 +173,69 @@ class _ProfileDetailPublisherState extends State<ProfileDetailPublisher> {
                         phoneNo!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          wordSpacing: 4.0,
+                          wordSpacing: 2.0,
+                          letterSpacing: 1.0,
+                          fontFamily: 'Poppins',
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  height: 45,
+                  width: 400,
+                  decoration: BoxDecoration(
+                    color: Color(0xff3949AB),
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        fullAddress!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          wordSpacing: 2.0,
+                          letterSpacing: 1.0,
+                          fontFamily: 'Poppins',
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  height: 45,
+                  width: 400,
+                  decoration: BoxDecoration(
+                    color: Color(0xff3949AB),
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        category!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          wordSpacing: 2.0,
                           letterSpacing: 1.0,
                           fontFamily: 'Poppins',
                           fontSize: 25.0,

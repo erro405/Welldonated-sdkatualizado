@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weeldonatedproject/app/backgound.dart';
-import 'package:weeldonatedproject/log_in/login_screen.dart';
-import 'package:weeldonatedproject/posts_feed/feed_screen.dart';
-import 'package:weeldonatedproject/app/choose_user_screen.dart';
+
+import '../log_in/login_screen.dart';
+import '../posts_feed/feed_screen.dart';
+import 'backgound.dart';
+import 'choose_user_screen.dart';
 
 class EmailPage extends StatelessWidget {
 
@@ -19,7 +20,7 @@ class EmailPage extends StatelessWidget {
         actions: [
           Container(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
                   'ww.png',

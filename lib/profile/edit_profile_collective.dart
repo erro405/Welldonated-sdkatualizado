@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:WellDonated/profile/profile_screen_collective.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -6,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:weeldonatedproject/app/add_announcement_screen.dart';
-import 'package:weeldonatedproject/profile/profile_screen_collective.dart';
+import '../app/add_announcement_screen.dart';
 import 'profile_screen_singular.dart';
 
 import '../costumwidgets/LowerAppBar.dart';
