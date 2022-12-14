@@ -1,4 +1,4 @@
-package com.example.weeldonatedproject
+package com.example.welldonated
 
 import io.flutter.embedding.android.FlutterActivity
 

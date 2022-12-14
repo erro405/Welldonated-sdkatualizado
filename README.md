@@ -1,4 +1,4 @@
-# weeldonatedproject
+# WellDonated
 
 A new Flutter project.
 
