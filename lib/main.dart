@@ -1,3 +1,5 @@
+import 'package:WellDonated/forget_password/forget_password.dart';
+import 'package:WellDonated/log_in/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 

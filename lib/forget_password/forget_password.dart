@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import '../sign_up_singular/components/heading_text.dart';
-import '../sign_up_singular/components/info.dart';
-
-
+import '../forget_password/components/heading_text.dart';
+import '../forget_password/components/info.dart';
 
 class ForgetPassword extends StatelessWidget {
 

@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:WellDonated/post_details/profile_details_publisher_collective.dart';
-import 'package:WellDonated/post_details/profile_details_publisher_singular.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../costumwidgets/LowerAppBar.dart';
 import '../posts_feed/feed_screen.dart';
+import 'profile_details_publisher_collective.dart';
+import 'profile_details_publisher_singular.dart';
 
 class PostDetailScreen extends StatefulWidget {
 

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../log_in/login_screen.dart';
 import 'backgound.dart';
 import 'choose_user_screen.dart';
