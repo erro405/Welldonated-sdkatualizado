@@ -19,13 +19,36 @@ class _LoginScreenState extends State<LoginScreen> {
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
 
-
-  String get _email => _emailController.text;
-  String get _password => _passwordController.text;
+  bool _emailValid = false;
+  bool _passwordValid = false;
 
   EmailPageFormType _formType = EmailPageFormType.signIn;
 
-  bool _submited = false;
+  void _showUserDialog() {
+    showDialog(
+        context: context,
+        builder: (context)
+        {
+          return AlertDialog(
+            title: const Text('Utilizador não existe!'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: const <Widget>[
+                  Text('Endereço de e-mail ou palavra-passe incorretos.'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
 
   void _emailEditingComplete() {
     FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -43,7 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
         print("Nenhum utilizador com essas credenciais.");
       }
     }
-
     return user;
   }
 
@@ -54,12 +76,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final secondaryText = _formType == EmailPageFormType.signIn
         ? 'Deseja criar uma conta?'
         : 'Já tem uma conta?';
-
-   // bool submitEnabel = widget.emailValidator.isValid(_email) &&
-      //  widget.passwordValidator.isValid(_password);
-
-    bool emailValid = _submited && !widget.emailValidator.isValid(_email);
-    bool passwordValid = _submited && !widget.emailValidator.isValid(_email);
 
     return [
       Text(
@@ -87,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           hintText: 'E-mail',
-          errorText: emailValid ? 'Email não pode estar vazio' : null,
+          errorText: _emailValid ? 'E-mail não pode ficar em branco' : null,
         ),
         autocorrect: false,
         keyboardType: TextInputType.emailAddress,
@@ -107,8 +123,8 @@ class _LoginScreenState extends State<LoginScreen> {
             color: Colors.grey,
           ),
           border: OutlineInputBorder(),
-          hintText: 'Password',
-          errorText: passwordValid ? 'Password não pode estar vazio!' : null,
+          hintText: 'Palavra-passe',
+          errorText: _passwordValid ? 'Palavra-passe não pode ficar em branco' : null,
         ),
         obscureText: true,
         textInputAction: TextInputAction.done,
@@ -120,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       TextButton(
         child: Text(
-          'Esqueceu-se da password?',
+          'Esqueceu-se da palavra-passe?',
           textAlign: TextAlign.left,
           style: TextStyle(
             fontSize: 15,
@@ -134,18 +150,25 @@ class _LoginScreenState extends State<LoginScreen> {
       ButaoSubmit(
         text: primaryText,
         onPressed: () async{
-          User? user = await loginUsingEmailPawword(email: _emailController.text, password: _passwordController.text, context: context);
-          print(user);
-          if(user != null){
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(context)=> FeedScreen()));
+          if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+            setState(() {
+              _emailController.text.isEmpty ? _emailValid = true : _emailValid = false;
+              _passwordController.text.isEmpty ? _passwordValid = true : _passwordValid = false;
+            });
+          } else {
+            User? user = await loginUsingEmailPawword(email: _emailController.text, password: _passwordController.text, context: context);
+            print(user);
+            if(user != null){
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(context)=> FeedScreen()));
+            } else {
+                _showUserDialog();
+            }
           }
         },
-        //submitEnabel ? _submit : null,
       ),
       SizedBox(
         height: 8,
       ),
-
     ];
   }
 

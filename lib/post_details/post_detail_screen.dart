@@ -25,6 +25,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final TextEditingController _amountDonation = new TextEditingController();
+  bool _amountValid = false;
+
   String? title = '';
   String? description = '';
   String? image = '';
@@ -245,6 +247,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 ),
+                errorText: _amountValid ? 'Quantidade não pode ficar em branco' : null,
               ),
               style: TextStyle(
                 color: Colors.white,
@@ -258,41 +261,46 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         ),
         ElevatedButton(
           onPressed: () async {
-            try {
-              String? userName = '';
-              String? userEmail = '';
-              String? userPhoneNum = '';
-              await FirebaseFirestore.instance.collection('users')
-                  .doc(_auth.currentUser!.uid)
-                  .get()
-                  .then((snapshot) async
-              {
-                if(snapshot.exists) {
+            if (_amountDonation.text.isEmpty) {
+              setState(() {
+                _amountDonation.text.isEmpty ? _amountValid = true : _amountValid = false;
+              });
+            } else {
+              try {
+                String? userName = '';
+                String? userEmail = '';
+                String? userPhoneNum = '';
+                await FirebaseFirestore.instance.collection('users')
+                    .doc(_auth.currentUser!.uid)
+                    .get()
+                    .then((snapshot) async
+                {
+                  if (snapshot.exists) {
                     userName = snapshot.data()!['name'];
                     userEmail = snapshot.data()!['email'];
                     userPhoneNum = snapshot.data()!['phoneNumber'];
-                }
-              });
+                  }
+                });
 
-              final User? user = _auth.currentUser;
-              final _uid = user!.uid;
+                final User? user = _auth.currentUser;
+                final _uid = user!.uid;
 
-              FirebaseFirestore.instance
-                  .collection('posts').doc(widget.postId)
-                  .collection('donateIntention').doc(_uid).set({
-                'uid': _uid,
-                'name': userName,
-                'email': userEmail,
-                'phoneNumber': userPhoneNum,
-                'postId': widget.postId,
-                'amount': _amountDonation.text,
-              });
-              Navigator.canPop(context) ? Navigator.pop(context) : null;
-            } catch (error) {
-              Fluttertoast.showToast(msg: error.toString());
+                FirebaseFirestore.instance
+                    .collection('posts').doc(widget.postId)
+                    .collection('donateIntention').doc(_uid).set({
+                  'uid': _uid,
+                  'name': userName,
+                  'email': userEmail,
+                  'phoneNumber': userPhoneNum,
+                  'postId': widget.postId,
+                  'amount': _amountDonation.text,
+                });
+                Navigator.canPop(context) ? Navigator.pop(context) : null;
+              } catch (error) {
+                Fluttertoast.showToast(msg: error.toString());
+              }
+              Navigator.push(context, MaterialPageRoute(builder: (context) => FeedScreen()));
             }
-            Navigator.push(context, MaterialPageRoute(builder: (context) => FeedScreen()));
-
           },
           child: Text(
             'DOAR',

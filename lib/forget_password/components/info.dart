@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import '../../app/choose_user_screen.dart';
 import '../../app/emailpage.dart';
 
@@ -15,6 +14,7 @@ class _CredentialsState extends State<Credentials> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final TextEditingController _emailController = TextEditingController(text: "");
+  bool _emailValid = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +23,11 @@ class _CredentialsState extends State<Credentials> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          TextFormField(
+          TextField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             cursorColor: Colors.white,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               isDense: true,
               contentPadding: EdgeInsets.symmetric(
                 vertical: 12,
@@ -35,7 +35,6 @@ class _CredentialsState extends State<Credentials> {
               ),
               filled: true,
               fillColor: Color(0xff3949AB),
-              hintText: "E-mail",
               hintStyle: TextStyle(
                 fontSize: 20.0,
                 fontFamily: 'Poppins',
@@ -55,6 +54,8 @@ class _CredentialsState extends State<Credentials> {
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
               ),
+              hintText: 'E-mail',
+              errorText: _emailValid ? 'E-mail não pode ficar em branco' : null,
             ),
             style: const TextStyle(
               color: Colors.white,
@@ -67,18 +68,26 @@ class _CredentialsState extends State<Credentials> {
           ),
           ElevatedButton(
             onPressed: () async {
-              try {
-                await _auth.sendPasswordResetEmail(email: _emailController.text);
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  backgroundColor: Colors.white,
-                  content: Text("Foi enviado um e-mail para recuperar a sua palavra-passe.",
-                  style: TextStyle(fontSize: 18.0),),
-                ),
-                );
-              } on FirebaseAuthException catch(error) {
-                Fluttertoast.showToast(msg: error.toString());
+              if (_emailController.text.isEmpty) {
+                setState(() {
+                  _emailController.text.isEmpty ? _emailValid = true : _emailValid = false;
+                });
+              } else {
+                try {
+                  await _auth.sendPasswordResetEmail(email: _emailController.text);
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    backgroundColor: Colors.white,
+                    content: Text(
+                      "Foi enviado um e-mail para recuperar a sua palavra-passe.",
+                      style: TextStyle(fontSize: 18.0),),
+                  ),
+                  );
+                } on FirebaseAuthException catch (error) {
+                  Fluttertoast.showToast(msg: error.toString());
+                }
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => EmailPage()));
               }
-              Navigator.push(context, MaterialPageRoute(builder: (context) => EmailPage()));
             },
             child: const Text(
               'Recuperar',

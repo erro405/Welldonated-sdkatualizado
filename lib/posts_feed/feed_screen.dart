@@ -25,7 +25,6 @@ class _FeedScreenState extends State<FeedScreen> {
     const Tab(text: 'Mobiliário'),
     const Tab(text: 'Animais'),
     const Tab(text: 'Alimentação'),
-    const Tab(text: 'Criança'),
     const Tab(text: 'Vestuário'),
     const Tab(text: 'Cultura'),
     const Tab(text: 'Educação'),

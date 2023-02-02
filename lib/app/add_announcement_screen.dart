@@ -28,6 +28,12 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
   final TextEditingController _location = new TextEditingController();
   final TextEditingController _phoneNum = new TextEditingController();
 
+  bool _titleValid = false;
+  bool _descriptionValid = false;
+  bool _amountValid = false;
+  bool _locationValid = false;
+  bool _phoneNumValid = false;
+
   File? imageFile;
   String? imageUrl;
 
@@ -37,7 +43,6 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
     'Mobiliário',
     'Animais',
     'Alimentação',
-    'Criança',
     'Vestuário',
     'Cultura',
     'Educação',
@@ -257,6 +262,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _titleValid ? 'Título não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -301,6 +307,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
+                        errorText: _descriptionValid ? 'Descrição não pode ficar em branco' : null,
                       ),
                       style: TextStyle(
                         color: Colors.white,
@@ -395,6 +402,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _amountValid ? 'Quantidade não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -440,6 +448,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _locationValid ? 'Localidade não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -482,6 +491,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _phoneNumValid ? 'Contacto Telefónico não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -494,33 +504,48 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-
-                      try {
-                        final ref = FirebaseStorage.instance.ref().child('postImages').child(DateTime.now().toString() + '.jpg');
-                        await ref.putFile(imageFile!);
-                        imageUrl = await ref.getDownloadURL();
-
-                        final User? user = _auth.currentUser;
-                        final _uid = user!.uid;
-                        final String _postId = const Uuid().v1();
-
-                        FirebaseFirestore.instance.collection('posts').doc(_postId).set({
-                          'id': _uid,
-                          'postId': _postId,
-                          'postImage': imageUrl,
-                          "title": _titlePost.text,
-                          "description": _description.text,
-                          "amount": _amount.text,
-                          "category": _currentItemSelected,
-                          "location": _location.text,
-                          "phoneNumber": _phoneNum.text,
-                          'createAt': Timestamp.now(),
+                      if (_titlePost.text.isEmpty || _description.text.isEmpty || _amount.text.isEmpty || _location.text.isEmpty || _phoneNum.text.isEmpty) {
+                        setState(() {
+                          _titlePost.text.isEmpty ? _titleValid = true : _titleValid = false;
+                          _description.text.isEmpty ? _descriptionValid = true : _descriptionValid = false;
+                          _amount.text.isEmpty ? _amountValid = true : _amountValid = false;
+                          _location.text.isEmpty ? _locationValid = true : _locationValid = false;
+                          _phoneNum.text.isEmpty ? _phoneNumValid = true : _phoneNumValid = false;
                         });
-                        Navigator.canPop(context) ? Navigator.pop(context) : null;
-                      } catch (error) {
-                        Fluttertoast.showToast(msg: error.toString());
+                      } else {
+                        try {
+                          final ref = FirebaseStorage.instance.ref().child(
+                              'postImages').child(DateTime.now().toString() +
+                              '.jpg');
+                          await ref.putFile(imageFile!);
+                          imageUrl = await ref.getDownloadURL();
+
+                          final User? user = _auth.currentUser;
+                          final _uid = user!.uid;
+                          final String _postId = const Uuid().v1();
+
+                          FirebaseFirestore.instance.collection('posts').doc(
+                              _postId).set({
+                            'id': _uid,
+                            'postId': _postId,
+                            'postImage': imageUrl,
+                            "title": _titlePost.text,
+                            "description": _description.text,
+                            "amount": _amount.text,
+                            "category": _currentItemSelected,
+                            "location": _location.text,
+                            "phoneNumber": _phoneNum.text,
+                            'createAt': Timestamp.now(),
+                          });
+                          Navigator.canPop(context)
+                              ? Navigator.pop(context)
+                              : null;
+                        } catch (error) {
+                          Fluttertoast.showToast(msg: error.toString());
+                        }
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => FeedScreen()));
                       }
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => FeedScreen()));
                     },
                     child: Text(
                       'Publicar anúncio',
@@ -601,37 +626,49 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.add,
-                          size: 34.0,
-                          color: Color(0xff1a237e),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Carregar fotografias',
-                          style: TextStyle(
+                children: <Widget>[
+                  imageFile == null
+                      ?
+                      ElevatedButton(
+                      onPressed: () {
+                        _showImageDialog();
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            size: 34.0,
                             color: Color(0xff1a237e),
-                            fontSize: 20.0,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
                           ),
-                        ),
-                      ],
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      fixedSize: Size(290, 50),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Carregar fotografias',
+                            style: TextStyle(
+                              color: Color(0xff1a237e),
+                              fontSize: 20.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        fixedSize: Size(290, 50),
+                      ),
+                    )
+                        :
+                    Container(
+                    height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.indigo,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: Image.file(imageFile!).image,
+                        )
                     ),
                   ),
                   SizedBox(
@@ -667,6 +704,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _titleValid ? 'Título não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -710,6 +748,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
+                        errorText: _descriptionValid ? 'Descrição não pode ficar em branco' : null,
                       ),
                       style: TextStyle(
                         color: Colors.white,
@@ -801,6 +840,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _amountValid ? 'Quantidade não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -845,6 +885,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _locationValid ? 'Localidade não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -886,6 +927,7 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _phoneNumValid ? 'Contacto Telefónico não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -897,7 +939,50 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                     height: 30.0,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      if (_titlePost.text.isEmpty || _description.text.isEmpty || _amount.text.isEmpty || _location.text.isEmpty || _phoneNum.text.isEmpty) {
+                        setState(() {
+                          _titlePost.text.isEmpty ? _titleValid = true : _titleValid = false;
+                          _description.text.isEmpty ? _descriptionValid = true : _descriptionValid = false;
+                          _amount.text.isEmpty ? _amountValid = true : _amountValid = false;
+                          _location.text.isEmpty ? _locationValid = true : _locationValid = false;
+                          _phoneNum.text.isEmpty ? _phoneNumValid = true : _phoneNumValid = false;
+                        });
+                      } else {
+                        try {
+                          final ref = FirebaseStorage.instance.ref().child(
+                              'postImages').child(DateTime.now().toString() +
+                              '.jpg');
+                          await ref.putFile(imageFile!);
+                          imageUrl = await ref.getDownloadURL();
+
+                          final User? user = _auth.currentUser;
+                          final _uid = user!.uid;
+                          final String _postId = const Uuid().v1();
+
+                          FirebaseFirestore.instance.collection('posts').doc(
+                              _postId).set({
+                            'id': _uid,
+                            'postId': _postId,
+                            'postImage': imageUrl,
+                            "title": _titlePost.text,
+                            "description": _description.text,
+                            "amount": _amount.text,
+                            "category": _currentItemSelected,
+                            "location": _location.text,
+                            "phoneNumber": _phoneNum.text,
+                            'createAt': Timestamp.now(),
+                          });
+                          Navigator.canPop(context)
+                              ? Navigator.pop(context)
+                              : null;
+                        } catch (error) {
+                          Fluttertoast.showToast(msg: error.toString());
+                        }
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => FeedScreen()));
+                      }
+                    },
                     child: Text(
                       'Publicar anúncio',
                       style: TextStyle(
@@ -957,6 +1042,10 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
             setState(() => this.index = index);
 
             final item = items[index];
+            setState(() {
+              _currentItemSelected = item!;
+              category = item;
+            });
             print('Item selecionado: $item');
           },
         ),
