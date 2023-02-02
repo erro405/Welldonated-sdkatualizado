@@ -25,6 +25,10 @@ class _EditProfileSingularState extends State<EditProfileSingular> {
   final TextEditingController _email = new TextEditingController();
   final TextEditingController _phoneNo = new TextEditingController();
 
+  bool _nameValid = false;
+  bool _emailValid = false;
+  bool _phoneNoValid = false;
+
   String? image = '';
   File? imageXFile;
 
@@ -249,6 +253,7 @@ class _EditProfileSingularState extends State<EditProfileSingular> {
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     ),
+                    errorText: _nameValid ? 'Nome não pode ficar em branco' : null,
                   ),
                   style: TextStyle(
                     color: Colors.white,
@@ -291,6 +296,7 @@ class _EditProfileSingularState extends State<EditProfileSingular> {
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     ),
+                    errorText: _emailValid ? 'E-mail não pode ficar em branco' : null,
                   ),
                   style: TextStyle(
                     color: Colors.white,
@@ -333,6 +339,7 @@ class _EditProfileSingularState extends State<EditProfileSingular> {
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     ),
+                    errorText: _phoneNoValid ? 'Telemóvel não pode ficar em branco' : null,
                   ),
                   style: TextStyle(
                     color: Colors.white,
@@ -345,7 +352,13 @@ class _EditProfileSingularState extends State<EditProfileSingular> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    if (imageXFile == null) {
+                    if (_name.text == '' || _email.text.isEmpty || _phoneNo.text.isEmpty) {
+                      setState(() {
+                        _name.text.isEmpty ? _nameValid = true : _nameValid = false;
+                        _email.text.isEmpty ? _emailValid = true : _emailValid = false;
+                        _phoneNo.text.isEmpty ? _phoneNoValid = true : _phoneNoValid = false;
+                      });
+                    } else if (imageXFile == null) {
                       try {
                         final User? user = _auth.currentUser;
                         final _uid = user!.uid;
@@ -360,9 +373,8 @@ class _EditProfileSingularState extends State<EditProfileSingular> {
                           'role': 'singular',
                           'editedAt': Timestamp.now(),
                         });
-                        Navigator.canPop(context)
-                            ? Navigator.pop(context)
-                            : null;
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => ProfileScreenSingular()));
                       } catch (error) {
                         Fluttertoast.showToast(msg: error.toString());
                       }
@@ -387,15 +399,14 @@ class _EditProfileSingularState extends State<EditProfileSingular> {
                           'role': 'singular',
                           'editedAt': Timestamp.now(),
                         });
-                        Navigator.canPop(context)
-                            ? Navigator.pop(context)
-                            : null;
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => ProfileScreenSingular()));
                       } catch (error) {
                         Fluttertoast.showToast(msg: error.toString());
                       }
                     }
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => ProfileScreenSingular()));
+                    //Navigator.push(context, MaterialPageRoute(
+                        //builder: (context) => ProfileScreenSingular()));
                   },
                   child: Text(
                     'Editar',
