@@ -24,6 +24,11 @@ class _CredentialsState extends State<Credentials> {
   final TextEditingController _passwordController = TextEditingController(text: "");
   final TextEditingController _phoneNumController = TextEditingController(text: "");
 
+  bool _nameValid = false;
+  bool _emailValid = false;
+  bool _passwordValid = false;
+  bool _phoneNoValid = false;
+
   File? imageFile;
   String? imageUrl;
   
@@ -165,6 +170,7 @@ class _CredentialsState extends State<Credentials> {
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
               ),
+              errorText: _nameValid ? 'Nome não pode ficar em branco' : null,
             ),
             style: TextStyle(
               color: Colors.white,
@@ -207,6 +213,7 @@ class _CredentialsState extends State<Credentials> {
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
               ),
+              errorText: _emailValid ? 'E-mail não pode ficar em branco' : null,
             ),
             style: TextStyle(
               color: Colors.white,
@@ -249,6 +256,7 @@ class _CredentialsState extends State<Credentials> {
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
               ),
+              errorText: _phoneNoValid ? 'Telemóvel não pode ficar em branco' : null,
             ),
             style: TextStyle(
               color: Colors.white,
@@ -291,6 +299,7 @@ class _CredentialsState extends State<Credentials> {
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
               ),
+              errorText: _passwordValid ? 'Palavra-passe não pode ficar em branco' : null,
             ),
             style: TextStyle(
               color: Colors.white,
@@ -321,31 +330,42 @@ class _CredentialsState extends State<Credentials> {
               if (imageFile == null) {
                 Fluttertoast.showToast(msg: "Selecione uma fotografia");
                 return;
-              }
-              try {
-                final ref = FirebaseStorage.instance.ref().child('userImages').child(DateTime.now().toString() + '.jpg');
-                await ref.putFile(imageFile!);
-                imageUrl = await ref.getDownloadURL();
-                await _auth.createUserWithEmailAndPassword(
-                  email: _emailTextController.text.trim().toLowerCase(),
-                  password: _passwordController.text.trim(),
-                );
-                final User? user = _auth.currentUser;
-                final _uid = user!.uid;
-                FirebaseFirestore.instance.collection('users').doc(_uid).set({
-                  'id': _uid,
-                  'userImage': imageUrl,
-                  'name': _fullNameController.text,
-                  'email': _emailTextController.text,
-                  'phoneNumber': _phoneNumController.text,
-                  'role': 'singular',
-                  'createAt': Timestamp.now(),
+              } else if (_fullNameController.text.isEmpty || _emailTextController.text.isEmpty || _phoneNumController.text.isEmpty || _passwordController.text.isEmpty) {
+                setState(() {
+                  _fullNameController.text.isEmpty ? _nameValid = true : _nameValid = false;
+                  _emailTextController.text.isEmpty ? _emailValid = true : _emailValid = false;
+                  _phoneNumController.text.isEmpty ? _phoneNoValid = true : _phoneNoValid = false;
+                  _passwordController.text.isEmpty ? _passwordValid = true : _passwordValid = false;
                 });
-                Navigator.canPop(context) ? Navigator.pop(context) : null;
-              } catch (error) {
-                Fluttertoast.showToast(msg: error.toString());
+              } else {
+                try {
+                  final ref = FirebaseStorage.instance.ref()
+                      .child('userImages')
+                      .child(DateTime.now().toString() + '.jpg');
+                  await ref.putFile(imageFile!);
+                  imageUrl = await ref.getDownloadURL();
+                  await _auth.createUserWithEmailAndPassword(
+                    email: _emailTextController.text.trim().toLowerCase(),
+                    password: _passwordController.text.trim(),
+                  );
+                  final User? user = _auth.currentUser;
+                  final _uid = user!.uid;
+                  FirebaseFirestore.instance.collection('users').doc(_uid).set({
+                    'id': _uid,
+                    'userImage': imageUrl,
+                    'name': _fullNameController.text,
+                    'email': _emailTextController.text,
+                    'phoneNumber': _phoneNumController.text,
+                    'role': 'singular',
+                    'createAt': Timestamp.now(),
+                  });
+                  Navigator.canPop(context) ? Navigator.pop(context) : null;
+                } catch (error) {
+                  Fluttertoast.showToast(msg: error.toString());
+                }
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FeedScreen()));
               }
-              Navigator.push(context, MaterialPageRoute(builder: (context) => FeedScreen()));
             },
             child: Text(
               'Criar conta',

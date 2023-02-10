@@ -116,7 +116,7 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
                   ),
                 ),
                 SizedBox(
-                  height: 60,
+                  height: 50,
                 ),
                 Container(
                   height: 45,
@@ -194,6 +194,37 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
                         height: 8,
                       ),
                       Text(
+                        category!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          wordSpacing: 2.0,
+                          letterSpacing: 1.0,
+                          fontFamily: 'Poppins',
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  height: 45,
+                  width: 400,
+                  decoration: BoxDecoration(
+                    color: Color(0xff3949AB),
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
                         phoneNo!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -226,37 +257,6 @@ class _ProfileScreenCollectiveState extends State<ProfileScreenCollective> {
                       ),
                       Text(
                         fullAddress!,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          wordSpacing: 2.0,
-                          letterSpacing: 1.0,
-                          fontFamily: 'Poppins',
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  height: 45,
-                  width: 400,
-                  decoration: BoxDecoration(
-                    color: Color(0xff3949AB),
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        category!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           wordSpacing: 2.0,

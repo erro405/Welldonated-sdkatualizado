@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../app/add_announcement_screen.dart';
 import '../costumwidgets/LowerAppBar.dart';
+import '../posts_feed/editar_post_page.dart';
 import 'edit_active_announcement_screen.dart';
 import 'view_donation_announcements.dart';
 
@@ -137,12 +138,9 @@ class ActiveAnnouncements extends StatelessWidget {
                                               primary: Colors.orange,
                                             ),
                                           ),
-
-                                          SizedBox(width: 10,),
-
-                                           // FirebaseAuth.instance.currentUser!.uid == _auth.id
-                                             // ?
-
+                                          SizedBox(
+                                            width: 10,
+                                          ),
                                           ElevatedButton(onPressed: ()
                                           {
                                                 deletedata(snapshot.data!.docs[index]['postId']);

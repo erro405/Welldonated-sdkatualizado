@@ -31,8 +31,14 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
   final TextEditingController _location = new TextEditingController();
   final TextEditingController _phoneNum = new TextEditingController();
 
+  bool _titleValid = false;
+  bool _descriptionValid = false;
+  bool _amountValid = false;
+  bool _locationValid = false;
+  bool _phoneNumValid = false;
+
   File? imageFile;
-  String? imageUrl;
+  String? image = '';
 
   String dropdownvalue = 'Selecione a Categoria';
   final items = [
@@ -73,7 +79,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
           _location.text = snapshot.data()!['location'];
           _phoneNum.text = snapshot.data()!['phoneNumber'];
           _currentItemSelected = snapshot.data()!['category'];
-          imageUrl = snapshot.data()!['postImage'];
+          image = snapshot.data()!['postImage'];
         });
       }
     });
@@ -216,8 +222,45 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
-                    height: 38.0,
+                  const SizedBox(
+                    height: 8.0,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _showImageDialog();
+                    },
+                    child: Container(
+                      height: 200,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: imageFile == null
+                                ?
+                            NetworkImage(
+                                image!
+                            )
+                                :
+                            Image
+                                .file
+                              (imageFile!)
+                                .image,
+                          )
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'Clique para editar',
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
                   ),
                   TextFormField(
                     controller: _titlePost,
@@ -250,6 +293,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _titleValid ? 'Título não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -294,6 +338,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
+                        errorText: _descriptionValid ? 'Descrição não pode ficar em branco' : null,
                       ),
                       style: TextStyle(
                         color: Colors.white,
@@ -388,6 +433,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _amountValid ? 'Quantidade não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -433,6 +479,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _locationValid ? 'Localidade não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -475,6 +522,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _phoneNumValid ? 'Telemóvel não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -487,24 +535,60 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      try {
-                        FirebaseFirestore.instance.collection('posts').doc(widget.postId).set({
-                          'id': FirebaseAuth.instance.currentUser!.uid,
-                          'postId': widget.postId,
-                          "title": _titlePost.text,
-                          "description": _description.text,
-                          "amount": _amount.text,
-                          "category": _currentItemSelected,
-                          "location": _location.text,
-                          "phoneNumber": _phoneNum.text,
-                          'postImage': imageUrl,
-                          'editedAt': Timestamp.now(),
+                      if (_titlePost.text.isEmpty || _description.text.isEmpty || _amount.text.isEmpty || _location.text.isEmpty || _phoneNum.text.isEmpty) {
+                        setState(() {
+                          _titlePost.text.isEmpty ? _titleValid = true : _titleValid = false;
+                          _description.text.isEmpty ? _descriptionValid = true : _descriptionValid = false;
+                          _amount.text.isEmpty ? _amountValid = true : _amountValid = false;
+                          _location.text.isEmpty ? _locationValid = true : _locationValid = false;
+                          _phoneNum.text.isEmpty ? _phoneNumValid = true : _phoneNumValid = false;
                         });
-                        Navigator.canPop(context) ? Navigator.pop(context) : null;
-                      } catch (error) {
-                        Fluttertoast.showToast(msg: error.toString());
+                      } else if (imageFile == null) {
+                        try {
+                          FirebaseFirestore.instance.collection('posts').doc(widget.postId).set({
+                            'id': FirebaseAuth.instance.currentUser!.uid,
+                            'postId': widget.postId,
+                            "title": _titlePost.text,
+                            "description": _description.text,
+                            "amount": _amount.text,
+                            "category": _currentItemSelected,
+                            "location": _location.text,
+                            "phoneNumber": _phoneNum.text,
+                            'postImage': image,
+                            'editedAt': Timestamp.now(),
+                          });
+                          Navigator.canPop(context) ? Navigator.pop(context) : null;
+                        } catch (error) {
+                          Fluttertoast.showToast(msg: error.toString());
+                        }
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                            FeedScreen()));
+                      } else {
+                        try {
+                          final ref = FirebaseStorage.instance.ref().child(
+                              'postImages').child(DateTime.now().toString() +
+                              '.jpg');
+                          await ref.putFile(imageFile!);
+                          image = await ref.getDownloadURL();
+
+                          FirebaseFirestore.instance.collection('posts').doc(widget.postId).set({
+                            'id': FirebaseAuth.instance.currentUser!.uid,
+                            'postId': widget.postId,
+                            "title": _titlePost.text,
+                            "description": _description.text,
+                            "amount": _amount.text,
+                            "category": _currentItemSelected,
+                            "location": _location.text,
+                            "phoneNumber": _phoneNum.text,
+                            'postImage': image,
+                            'editedAt': Timestamp.now(),
+                          });
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                              FeedScreen()));
+                        } catch (error) {
+                          Fluttertoast.showToast(msg: error.toString());
+                        }
                       }
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => FeedScreen()));
                     },
                     child: Text(
                       'Editar anúncio',
@@ -568,7 +652,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
               preferredSize: Size.fromHeight(8.0)),
           elevation: 0.0,
           title: Text(
-            'Anunciar um artigo',
+            'Editar um artigo',
             textAlign: TextAlign.end,
             style: TextStyle(
               fontFamily: 'Segoi UI',
@@ -584,49 +668,54 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 30,
+                children: <Widget>[
+                  const SizedBox(
+                    height: 8.0,
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.add,
-                          size: 34.0,
-                          color: Color(0xff1a237e),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Carregar fotografias',
-                          style: TextStyle(
-                            color: Color(0xff1a237e),
-                            fontSize: 20.0,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      fixedSize: Size(290, 50),
+                  GestureDetector(
+                    onTap: () {
+                      _showImageDialog();
+                    },
+                    child: Container(
+                      height: 200,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: imageFile == null
+                                ?
+                            NetworkImage(
+                                image!
+                            )
+                                :
+                            Image
+                                .file
+                              (imageFile!)
+                                .image,
+                          )
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: 38.0,
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'Clique para editar',
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
                   ),
                   TextFormField(
+                    controller: _titlePost,
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
                       isDense: true,
                       contentPadding: EdgeInsets.symmetric(
-                        vertical: 13,
+                        vertical: 8,
                         horizontal: 10,
                       ),
                       filled: true,
@@ -651,6 +740,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _titleValid ? 'Título não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -663,6 +753,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                   ),
                   Card(
                     child: TextFormField(
+                      controller: _description,
                       maxLines: 5,
                       cursorColor: Colors.white,
                       textAlignVertical: TextAlignVertical.top,
@@ -694,6 +785,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
+                        errorText: _descriptionValid ? 'Descrição não pode ficar em branco' : null,
                       ),
                       style: TextStyle(
                         color: Colors.white,
@@ -724,7 +816,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            category,
+                            _currentItemSelected,
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: Colors.white,
@@ -755,12 +847,16 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                   SizedBox(
                     height: 38.0,
                   ),
+                  SizedBox(
+                    height: 38.0,
+                  ),
                   TextFormField(
+                    controller: _amount,
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
                       isDense: true,
                       contentPadding: EdgeInsets.symmetric(
-                        vertical: 13,
+                        vertical: 8,
                         horizontal: 10,
                       ),
                       filled: true,
@@ -785,6 +881,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _amountValid ? 'Quantidade não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -800,11 +897,12 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                     height: 30.0,
                   ),
                   TextFormField(
+                    controller: _location,
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
                       isDense: true,
                       contentPadding: EdgeInsets.symmetric(
-                        vertical: 13,
+                        vertical: 8,
                         horizontal: 10,
                       ),
                       filled: true,
@@ -829,6 +927,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _locationValid ? 'Localidade não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -840,12 +939,13 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                     height: 35.0,
                   ),
                   TextFormField(
+                    controller: _phoneNum,
                     keyboardType: TextInputType.number,
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
                       isDense: true,
                       contentPadding: EdgeInsets.symmetric(
-                        vertical: 13,
+                        vertical: 8,
                         horizontal: 10,
                       ),
                       filled: true,
@@ -870,6 +970,7 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
+                      errorText: _phoneNumValid ? 'Telemóvel não pode ficar em branco' : null,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -881,7 +982,62 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
                     height: 30.0,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      if (_titlePost.text.isEmpty || _description.text.isEmpty || _amount.text.isEmpty || _location.text.isEmpty || _phoneNum.text.isEmpty) {
+                        setState(() {
+                        _titlePost.text.isEmpty ? _titleValid = true : _titleValid = false;
+                        _description.text.isEmpty ? _descriptionValid = true : _descriptionValid = false;
+                        _amount.text.isEmpty ? _amountValid = true : _amountValid = false;
+                        _location.text.isEmpty ? _locationValid = true : _locationValid = false;
+                        _phoneNum.text.isEmpty ? _phoneNumValid = true : _phoneNumValid = false;
+                        });
+                      } else if (imageFile == null) {
+                        try {
+                          FirebaseFirestore.instance.collection('posts').doc(widget.postId).set({
+                            'id': FirebaseAuth.instance.currentUser!.uid,
+                            'postId': widget.postId,
+                            "title": _titlePost.text,
+                            "description": _description.text,
+                            "amount": _amount.text,
+                            "category": _currentItemSelected,
+                            "location": _location.text,
+                            "phoneNumber": _phoneNum.text,
+                            'postImage': image,
+                            'editedAt': Timestamp.now(),
+                          });
+                          Navigator.canPop(context) ? Navigator.pop(context) : null;
+                        } catch (error) {
+                          Fluttertoast.showToast(msg: error.toString());
+                        }
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                            FeedScreen()));
+                      } else {
+                        try {
+                          final ref = FirebaseStorage.instance.ref().child(
+                              'postImages').child(DateTime.now().toString() +
+                              '.jpg');
+                          await ref.putFile(imageFile!);
+                          image = await ref.getDownloadURL();
+
+                          FirebaseFirestore.instance.collection('posts').doc(widget.postId).set({
+                            'id': FirebaseAuth.instance.currentUser!.uid,
+                            'postId': widget.postId,
+                            "title": _titlePost.text,
+                            "description": _description.text,
+                            "amount": _amount.text,
+                            "category": _currentItemSelected,
+                            "location": _location.text,
+                            "phoneNumber": _phoneNum.text,
+                            'postImage': image,
+                            'editedAt': Timestamp.now(),
+                          });
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                              FeedScreen()));
+                        } catch (error) {
+                          Fluttertoast.showToast(msg: error.toString());
+                        }
+                      }
+                    },
                     child: Text(
                       'Editar anúncio',
                       style: TextStyle(
@@ -940,8 +1096,8 @@ class _EditActiveAnnouncementState extends State<EditActiveAnnouncement> {
           onSelectedItemChanged: (index) {
             setState(() => this.index = index);
 
-            final item = items[index];
-            print('Item selecionado: $item');
+            _currentItemSelected = items[index];
+            print('Item selecionado: $_currentItemSelected');
           },
         ),
       );

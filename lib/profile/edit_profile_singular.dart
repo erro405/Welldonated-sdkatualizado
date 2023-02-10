@@ -265,6 +265,7 @@ class _EditProfileSingularState extends State<EditProfileSingular> {
                   height: 30,
                 ),
                 TextFormField(
+                  enabled: false,
                   controller: _email,
                   keyboardType: TextInputType.emailAddress,
                   cursorColor: Colors.white,

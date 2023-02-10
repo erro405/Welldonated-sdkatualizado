@@ -504,7 +504,10 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      if (_titlePost.text.isEmpty || _description.text.isEmpty || _amount.text.isEmpty || _location.text.isEmpty || _phoneNum.text.isEmpty) {
+                      if (imageFile == null) {
+                        Fluttertoast.showToast(msg: "Selecione uma fotografia");
+                        return;
+                      } else if (_titlePost.text.isEmpty || _description.text.isEmpty || _amount.text.isEmpty || _location.text.isEmpty || _phoneNum.text.isEmpty) {
                         setState(() {
                           _titlePost.text.isEmpty ? _titleValid = true : _titleValid = false;
                           _description.text.isEmpty ? _descriptionValid = true : _descriptionValid = false;
@@ -940,7 +943,10 @@ class _CriarAnuncioState extends State<CriarAnuncio> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      if (_titlePost.text.isEmpty || _description.text.isEmpty || _amount.text.isEmpty || _location.text.isEmpty || _phoneNum.text.isEmpty) {
+                      if (imageFile == null) {
+                        Fluttertoast.showToast(msg: "Selecione uma fotografia");
+                        return;
+                      } else if (_titlePost.text.isEmpty || _description.text.isEmpty || _amount.text.isEmpty || _location.text.isEmpty || _phoneNum.text.isEmpty) {
                         setState(() {
                           _titlePost.text.isEmpty ? _titleValid = true : _titleValid = false;
                           _description.text.isEmpty ? _descriptionValid = true : _descriptionValid = false;

@@ -969,8 +969,8 @@ class _EditarAnuncioState extends State<EditarAnuncio> {
       onSelectedItemChanged: (index) {
         setState(() => this.index = index);
 
-        final item = items[index];
-        print('Item selecionado: $item');
+        _currentItemSelected = items[index];
+        print('Item selecionado: $_currentItemSelected');
       },
     ),
   );
